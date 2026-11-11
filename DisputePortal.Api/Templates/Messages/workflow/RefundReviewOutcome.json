@@ -1,0 +1,5 @@
+{
+  "subject": "{kind} Review: {status}",
+  "action": "View Review",
+  "text": "{kind} review: {status}. {reason}"
+}

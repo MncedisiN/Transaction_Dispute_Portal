@@ -1,0 +1,3 @@
+ALTER DATABASE [{{Database}}]
+SET
+    AUTO_CLOSE OFF

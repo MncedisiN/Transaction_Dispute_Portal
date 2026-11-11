@@ -1,0 +1,5 @@
+{
+  "subject": "Refund Recalled",
+  "action": "Review Your Case",
+  "text": "Your refund of {amount} was recalled from {account}. Open case {reference} to view the reason or request another review."
+}

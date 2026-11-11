@@ -1,0 +1,427 @@
+{
+  "roles": {
+    "service_clerk": {
+      "label": "Service Clerk",
+      "description": "View customer and transaction details and submit disputes on behalf of clients. No refund or specialist assignment rights.",
+      "specialist": false,
+      "assignable": false,
+      "rank": 7
+    },
+    "customer": {
+      "label": "Customer",
+      "description": "Own accounts, transactions and disputes.",
+      "specialist": false,
+      "assignable": false,
+      "rank": 9
+    },
+    "dispute_agent": {
+      "label": "Dispute Agent",
+      "description": "General dispute reviews and customer replies.",
+      "specialist": true,
+      "assignable": true,
+      "rank": 6
+    },
+    "fraud_agent": {
+      "label": "Fraud Specialist",
+      "description": "Unauthorised activity and fraud investigations.",
+      "specialist": true,
+      "assignable": true,
+      "rank": 2
+    },
+    "card_specialist": {
+      "label": "Card Specialist",
+      "description": "Card purchases, duplicates and merchant disputes.",
+      "specialist": true,
+      "assignable": true,
+      "rank": 3
+    },
+    "debit_order_specialist": {
+      "label": "Debit-Order Specialist",
+      "description": "Mandates, collections and cancellation disputes.",
+      "specialist": true,
+      "assignable": true,
+      "rank": 4
+    },
+    "payments_specialist": {
+      "label": "Payments Investigator",
+      "description": "Transfer and cash-withdrawal investigations.",
+      "specialist": true,
+      "assignable": true,
+      "rank": 5
+    },
+    "operations_manager": {
+      "label": "Operations Manager",
+      "description": "Assign cases, manage priorities and supervise reviews.",
+      "specialist": false,
+      "assignable": true,
+      "rank": 1
+    },
+    "super_admin": {
+      "label": "Super Admin",
+      "description": "Manage users, roles, dispute rules and case assignments.",
+      "specialist": false,
+      "assignable": true,
+      "rank": 0
+    },
+    "audit_reader": {
+      "label": "Audit Reader",
+      "description": "Read cases and audit history without changing them.",
+      "specialist": false,
+      "assignable": false,
+      "rank": 8
+    }
+  },
+  "queues": {
+    "General": {
+      "label": "Dispute Support",
+      "steps": [
+        "Confirm the transaction and customer concern",
+        "Request any missing evidence",
+        "Record the decision and customer outcome"
+      ],
+      "role": "dispute_agent"
+    },
+    "Fraud": {
+      "label": "Fraud Investigation",
+      "steps": [
+        "Review unauthorised activity and account risk",
+        "Coordinate account protection through approved bank channels",
+        "Document investigation evidence and the outcome"
+      ],
+      "role": "fraud_agent"
+    },
+    "Card": {
+      "label": "Card Disputes",
+      "steps": [
+        "Check the card transaction and merchant evidence",
+        "Assess duplicate, amount or goods-and-services claims",
+        "Record the scheme review outcome without promising a refund"
+      ],
+      "role": "card_specialist"
+    },
+    "DebitOrder": {
+      "label": "Debit-Order Disputes",
+      "steps": [
+        "Review the mandate and cancellation evidence",
+        "Check collection date and applicable dispute policy",
+        "Record the specialist decision and explain the outcome"
+      ],
+      "role": "debit_order_specialist"
+    },
+    "Payments": {
+      "label": "Payments Investigations",
+      "steps": [
+        "Trace the transfer or cash withdrawal reference",
+        "Reconcile settlement or cash-dispensing evidence",
+        "Record the investigation result and customer outcome"
+      ],
+      "role": "payments_specialist"
+    }
+  },
+  "priorities": {
+    "1": "Low",
+    "2": "Normal",
+    "3": "Medium",
+    "4": "High",
+    "5": "Critical"
+  },
+  "statuses": {
+    "Submitted": {
+      "label": "Submitted",
+      "customerLabel": "Submitted",
+      "tone": "pending",
+      "stage": 0,
+      "nextStep": "Your case is waiting for review.",
+      "ownerLabel": "",
+      "steps": ["Received", "In Review", "Complete"],
+      "closed": false
+    },
+    "UnderReview": {
+      "label": "Under Review",
+      "customerLabel": "Under Review",
+      "tone": "progress",
+      "stage": 1,
+      "nextStep": "Your specialist is reviewing the transaction.",
+      "ownerLabel": "",
+      "steps": ["Received", "In Review", "Complete"],
+      "closed": false
+    },
+    "AwaitingCustomer": {
+      "label": "Awaiting Customer",
+      "customerLabel": "Action Needed",
+      "tone": "pending",
+      "stage": 1,
+      "nextStep": "Your specialist needs a reply from you.",
+      "ownerLabel": "",
+      "steps": ["Received", "Your Reply", "Complete"],
+      "closed": false
+    },
+    "Resolved": {
+      "label": "Resolved",
+      "customerLabel": "Resolved",
+      "tone": "success",
+      "stage": 2,
+      "nextStep": "Your case is complete. View the outcome below.",
+      "ownerLabel": "Case Closed",
+      "steps": ["Received", "In Review", "Complete"],
+      "closed": true
+    },
+    "Declined": {
+      "label": "Declined",
+      "customerLabel": "Declined",
+      "tone": "danger",
+      "stage": 2,
+      "nextStep": "The review is complete. View the decision below.",
+      "ownerLabel": "Case Closed",
+      "steps": ["Received", "In Review", "Complete"],
+      "closed": true
+    },
+    "Withdrawn": {
+      "label": "Withdrawn",
+      "customerLabel": "Withdrawn",
+      "tone": "neutral",
+      "stage": 2,
+      "nextStep": "This case has been withdrawn.",
+      "ownerLabel": "Case Withdrawn",
+      "steps": ["Received", "In Review", "Withdrawn"],
+      "closed": true
+    }
+  },
+  "severities": ["Low", "Medium", "High", "Critical"],
+  "transactionStatuses": {
+    "Posted": "Completed",
+    "Pending": "Pending Payment",
+    "Reversed": "Reversed"
+  },
+  "availability": ["Available", "Busy", "Offline"],
+  "assignmentReason": {
+    "minimum": 5,
+    "maximum": 500
+  },
+  "escalationReason": {
+    "minimum": 10,
+    "maximum": 500
+  },
+  "policyReason": {
+    "minimum": 10,
+    "maximum": 500
+  },
+  "password": {
+    "minimum": 12,
+    "maximum": 128
+  },
+  "staffStatuses": ["Active", "Locked", "Disabled"],
+  "supportBody": {
+    "minimum": 2,
+    "maximum": 2000
+  },
+  "supportSubject": {
+    "minimum": 0,
+    "maximum": 200
+  },
+  "additionalDetails": {
+    "minimum": 0,
+    "maximum": 1000
+  },
+  "financialReason": {
+    "minimum": 10,
+    "maximum": 1000
+  },
+  "staffCapacity": {
+    "minimum": 1,
+    "maximum": 50
+  },
+  "evidenceReason": {
+    "minimum": 5,
+    "maximum": 500
+  },
+  "evidenceDurations": {
+    "1": "1 Hour",
+    "8": "8 Hours",
+    "24": "24 Hours",
+    "72": "3 Days",
+    "168": "7 Days"
+  },
+  "evidenceDefaultHours": 24,
+  "transactionTypes": {
+    "CardPurchase": "Card Purchase",
+    "CreditCardPayment": "Credit Card Payment",
+    "OnlineCardPurchase": "Online Card Purchase",
+    "DebitOrder": "Debit Order",
+    "Transfer": "Internal Transfer",
+    "InternalTransfer": "Internal Transfer",
+    "ImmediatePayment": "Immediate Payment",
+    "BeneficiaryPayment": "Beneficiary Payment",
+    "CashWithdrawal": "Cash Withdrawal",
+    "Deposit": "Deposit",
+    "Withdrawal": "Withdrawal",
+    "Refund": "Dispute Refund",
+    "Recall": "Refund Reversal",
+    "Fee": "Bank Fee",
+    "Airtime": "Airtime And Data",
+    "PrepaidPurchase": "Prepaid Purchase",
+    "Interest": "Interest",
+    "Salary": "Salary Credit"
+  },
+  "paymentStatuses": {
+    "AwaitingApproval": "Awaiting External Confirmation",
+    "Preparing": "Preparing",
+    "Processing": "Processing",
+    "Completed": "Completed",
+    "Failed": "Failed",
+    "Cancelled": "Cancelled"
+  },
+  "evidence": {
+    "categories": [
+      {
+        "value": "IdentityDocument",
+        "label": "Identity Document"
+      },
+      {
+        "value": "ProofOfAddress",
+        "label": "Proof Of Address"
+      },
+      {
+        "value": "PaidUpLetter",
+        "label": "Paid-Up Letter"
+      },
+      {
+        "value": "ProofOfPayment",
+        "label": "Proof Of Payment"
+      },
+      {
+        "value": "BankStatement",
+        "label": "Bank Statement"
+      },
+      {
+        "value": "ReceiptOrInvoice",
+        "label": "Receipt Or Invoice"
+      },
+      {
+        "value": "MerchantCorrespondence",
+        "label": "Merchant Correspondence"
+      },
+      {
+        "value": "CancellationConfirmation",
+        "label": "Cancellation Confirmation"
+      },
+      {
+        "value": "PhotoOrScreenshot",
+        "label": "Photo Or Screenshot"
+      },
+      {
+        "value": "FraudReport",
+        "label": "Fraud Report"
+      },
+      {
+        "value": "MandateOrAgreement",
+        "label": "Mandate Or Agreement"
+      },
+      {
+        "value": "ProofOfDelivery",
+        "label": "Proof Of Delivery"
+      },
+      {
+        "value": "Other",
+        "label": "Other Supporting Evidence"
+      }
+    ],
+    "maximumFiles": 10,
+    "maximumFileBytes": 5242880,
+    "maximumOriginalBytes": 20971520,
+    "maximumCaseBytes": 26214400,
+    "allowedExtensions": [".pdf", ".jpg", ".jpeg", ".png", ".webp"],
+    "uploadStatuses": ["Submitted", "UnderReview", "AwaitingCustomer"]
+  },
+  "enquiryFlow": {
+    "initialStep": "concern",
+    "relatedCaseInitialStep": "relation",
+    "reviewStep": "review",
+    "steps": [
+      {
+        "code": "relation",
+        "kind": "relation",
+        "phase": "Concern",
+        "prompt": "Would you like to ask about this case or discuss something different?",
+        "completionField": null,
+        "concernFlag": null
+      },
+      {
+        "code": "concern",
+        "kind": "concern",
+        "phase": "Concern",
+        "prompt": "Choose what you need help with.",
+        "completionField": null,
+        "concernFlag": null
+      },
+      {
+        "code": "optional-transaction",
+        "kind": "optional-transaction",
+        "phase": "Details",
+        "prompt": "Is this about a transaction on your account?",
+        "completionField": null,
+        "concernFlag": null
+      },
+      {
+        "code": "transaction",
+        "kind": "transaction",
+        "phase": "Details",
+        "prompt": "Choose the transaction you need help with.",
+        "completionField": null,
+        "concernFlag": null
+      },
+      {
+        "code": "case",
+        "kind": "case",
+        "phase": "Details",
+        "prompt": "Choose the dispute you want to discuss.",
+        "completionField": null,
+        "concernFlag": null
+      },
+      {
+        "code": "description",
+        "kind": "description",
+        "phase": "Details",
+        "prompt": "Tell us what happened and how we can help.",
+        "completionField": "description",
+        "concernFlag": null
+      },
+      {
+        "code": "date",
+        "kind": "date",
+        "phase": "Details",
+        "prompt": "When did this issue happen? You can skip this if you are unsure.",
+        "completionField": "dateAnswered",
+        "concernFlag": "collectDate"
+      },
+      {
+        "code": "additional",
+        "kind": "additional",
+        "phase": "Details",
+        "prompt": "Is there anything else you would like our team to know?",
+        "completionField": "additionalAnswered",
+        "concernFlag": null
+      },
+      {
+        "code": "review",
+        "kind": "review",
+        "phase": "Review",
+        "prompt": "Please check your enquiry before sending it.",
+        "completionField": null,
+        "concernFlag": null
+      }
+    ]
+  },
+  "clientOptions": {
+    "requestTimeoutMilliseconds": 15000,
+    "transactionPageSize": 8,
+    "disputePageSize": 12,
+    "staffPageSize": 20,
+    "notificationPageSize": 20,
+    "reviewTransactionPageSize": 12,
+    "transactionHistoryDays": 30,
+    "closedCaseHistoryDays": 30
+  },
+  "customerSearchEnabled": true,
+  "customerAccountOpeningEnabled": false
+}

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../DisputePortal.Api.csproj" />
+    <ProjectReference Include="../../../infrastructure/bootstrap/Bootstrap.csproj" />
+    <Content Include="../../../Platform/Configuration/seed-settings.json" Link="seed-settings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../Repository/Seeds/**/*.sql" Link="Repository/Seeds/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup><Compile Include="../Fixtures/BankingTransactionFactory.cs" Link="Fixtures/BankingTransactionFactory.cs" /></ItemGroup>
+<ItemGroup><Compile Include="../Fixtures/DisputeInputFixture.cs" Link="Fixtures/DisputeInputFixture.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../Fixtures/RuntimeConfiguration.cs" Link="Fixtures/RuntimeConfiguration.cs" /></ItemGroup>
+</Project>

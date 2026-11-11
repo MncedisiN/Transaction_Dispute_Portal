@@ -1,0 +1,19 @@
+<Solution>
+  <Project Path="infrastructure/bootstrap/Bootstrap.csproj" />
+  <Project Path="DisputePortal.Api/DisputePortal.Api.csproj" />
+  <Project Path="Platform/Contracts/Contracts.csproj" />
+  <Project Path="Platform/Infrastructure/Infrastructure.csproj" />
+  <Project Path="Platform/Configuration/Configuration.csproj" />
+  <Project Path="Platform/Accounts/Accounts.csproj" />
+  <Project Path="Platform/Ledger/Ledger.csproj" />
+  <Project Path="Platform/Transactions/Transactions.csproj" />
+  <Project Path="Platform/Payments/Payments.csproj" />
+  <Project Path="Platform/Notifications/Notifications.csproj" />
+  <Project Path="Platform/Audit/Audit.csproj" />
+  <Project Path="Platform/Reporting/Reporting.csproj" />
+  <Project Path="Platform/Scheduling/Scheduling.csproj" />
+  <Project Path="Platform/ReversalReviews/ReversalReviews.csproj" />
+  <Project Path="Platform/Tests/Platform.Tests.csproj" />
+  <Project Path="DisputePortal.Api/tests/DisputePortal.UnitTests/DisputePortal.UnitTests.csproj" />
+  <Project Path="DisputePortal.Api/tests/DisputePortal.IntegrationTests/DisputePortal.IntegrationTests.csproj" />
+</Solution>

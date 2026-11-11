@@ -1,0 +1,22 @@
+{
+  "ReviewOutcomes": {
+    "Scheduled": "Scheduled for the selected review time.",
+    "Dispatched": "The review is being processed. You will be notified when it finishes.",
+    "Pending": "Awaiting eligibility checks. Temporary service or network problems are retried automatically.",
+    "Requested": "Eligibility checks passed. The financial operation is still processing.",
+    "Completed": "The financial operation completed. Open the original transaction to view its details.",
+    "Failed": "The requested operation did not complete. Open the original transaction to check its financial outcome.",
+    "Ineligible": "The original transaction is not eligible for this operation. Open the transaction to check its status and previous refunds.",
+    "original_ineligible": "The original transaction is not a completed payment eligible for this operation.",
+    "already_refunded": "The original payment has already been refunded. A second refund is not allowed.",
+    "refund_exceeds_original": "This refund would exceed the remaining refundable amount.",
+    "insufficient_funds": "The source account has insufficient available funds for this operation.",
+    "transaction_requested": "Eligibility checks passed. The financial operation is still processing.",
+    "Default": "The review has updated. Open the original transaction for details.",
+    "refund_exists": "The original payment has already been refunded. A second refund is not allowed.",
+    "reversal_exists": "A refund or recall already exists for this transaction. A duplicate operation is not allowed.",
+    "service_unavailable": "A required service was unavailable. Open the transaction to check the current outcome before starting another review.",
+    "refund_ineligible": "Only an eligible original debit can be refunded. Check the transaction status and previous refunds.",
+    "recall_ineligible": "Only a posted refund can be recalled. Check the original refund status."
+  }
+}

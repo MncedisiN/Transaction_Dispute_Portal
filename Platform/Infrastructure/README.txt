@@ -1,0 +1,4 @@
+Shared infrastructure only: service-authenticated HTTP, producer-signed RabbitMQ events, outbox/inbox persistence, native diagnostics, protected structured logging and process hosting.
+The existing ten financial service processes retain their own PostgreSQL repositories/databases. Identity and disputes use one configured SQL Server or PostgreSQL boundary; API repositories and event workers share that provider and connection.
+Native transaction-owned advisory/application locks coordinate identity/dispute writes. Request cancellation is preserved, including SqlClient's interrupted-lock error shape. Canonical projection flags are transaction-local on PostgreSQL and explicitly cleared on SQL Server; a SQL connection with an uncleared privileged marker is discarded from the pool.
+No Entity Framework Core dependency is used.

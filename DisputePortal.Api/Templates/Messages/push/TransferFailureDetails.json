@@ -1,0 +1,5 @@
+{
+  "subject": "{brand}",
+  "action": "",
+  "text": "Transfer of {amount} from {source} to {target} could not be completed."
+}

@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk.Web"><PropertyGroup><RootNamespace>DisputePortal.Platform.Payments</RootNamespace></PropertyGroup><ItemGroup><ProjectReference Include="../Infrastructure/Infrastructure.csproj" /></ItemGroup></Project>

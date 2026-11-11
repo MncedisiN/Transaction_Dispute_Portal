@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk.Web"><PropertyGroup><RootNamespace>DisputePortal.Platform.Notifications</RootNamespace></PropertyGroup><ItemGroup><ProjectReference Include="../Infrastructure/Infrastructure.csproj" /></ItemGroup></Project>

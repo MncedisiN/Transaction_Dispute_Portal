@@ -1,0 +1,5 @@
+{
+  "subject": "Confirm Your {brand} Account Deletion Request",
+  "action": "account deletion request",
+  "text": "Your {brand} {action} code is {code}. It expires in {minutes} minutes. Use it only to submit the deletion request you started. Your account closes only after review. Never share this code."
+}

@@ -1,0 +1,34 @@
+{
+  "PushProviders": {
+    "Providers": [
+      {
+        "Name": "Chromium And Android Browsers",
+        "ExactHosts": [
+          "fcm.googleapis.com"
+        ],
+        "SubdomainSuffixes": []
+      },
+      {
+        "Name": "Apple Web Push",
+        "ExactHosts": [
+          "web.push.apple.com"
+        ],
+        "SubdomainSuffixes": []
+      },
+      {
+        "Name": "Mozilla Web Push",
+        "ExactHosts": [],
+        "SubdomainSuffixes": [
+          "push.services.mozilla.com"
+        ]
+      },
+      {
+        "Name": "Microsoft Web Push",
+        "ExactHosts": [],
+        "SubdomainSuffixes": [
+          "notify.windows.com"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,547 @@
+{
+  "version": 1,
+  "operatingCountry": "ZA",
+  "branding": {
+    "name": "Dispute Portal",
+    "accentColor": "#00486d",
+    "logoColor": "#e73736"
+  },
+  "registration": {
+    "requireEmail": true,
+    "requirePhone": true,
+    "requireDocument": true,
+    "requireAddress": false,
+    "requireVerification": true
+  },
+  "currencies": [
+    {
+      "code": "ZAR",
+      "name": "South African rand",
+      "symbol": "R",
+      "decimals": 2
+    },
+    {
+      "code": "USD",
+      "name": "US dollar",
+      "symbol": "$",
+      "decimals": 2
+    },
+    {
+      "code": "ZWG",
+      "name": "ZiG",
+      "symbol": "ZiG",
+      "decimals": 2
+    },
+    {
+      "code": "BWP",
+      "name": "Botswana pula",
+      "symbol": "P",
+      "decimals": 2
+    },
+    {
+      "code": "NAD",
+      "name": "Namibian dollar",
+      "symbol": "N$",
+      "decimals": 2
+    },
+    {
+      "code": "LSL",
+      "name": "Lesotho loti",
+      "symbol": "L",
+      "decimals": 2
+    },
+    {
+      "code": "SZL",
+      "name": "Eswatini lilangeni",
+      "symbol": "E",
+      "decimals": 2
+    },
+    {
+      "code": "MZN",
+      "name": "Mozambican metical",
+      "symbol": "MT",
+      "decimals": 2
+    },
+    {
+      "code": "ZMW",
+      "name": "Zambian kwacha",
+      "symbol": "K",
+      "decimals": 2
+    },
+    {
+      "code": "MWK",
+      "name": "Malawian kwacha",
+      "symbol": "MK",
+      "decimals": 2
+    }
+  ],
+  "countries": [
+    {
+      "code": "ZA",
+      "name": "South Africa",
+      "flag": "\ud83c\uddff\ud83c\udde6",
+      "dialCode": "+27",
+      "locale": "en-ZA",
+      "timeZone": "Africa/Johannesburg",
+      "defaultCurrency": "ZAR",
+      "currencies": [
+        "ZAR"
+      ],
+      "documents": [
+        {
+          "key": "national-id",
+          "label": "South African ID",
+          "pattern": "^[0-9]{13}$",
+          "validator": "south-african-id",
+          "required": true
+        },
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [
+        {
+          "code": "GP",
+          "name": "Gauteng",
+          "districts": []
+        },
+        {
+          "code": "WC",
+          "name": "Western Cape",
+          "districts": []
+        },
+        {
+          "code": "KZN",
+          "name": "KwaZulu-Natal",
+          "districts": []
+        },
+        {
+          "code": "EC",
+          "name": "Eastern Cape",
+          "districts": []
+        },
+        {
+          "code": "FS",
+          "name": "Free State",
+          "districts": []
+        },
+        {
+          "code": "LP",
+          "name": "Limpopo",
+          "districts": []
+        },
+        {
+          "code": "MP",
+          "name": "Mpumalanga",
+          "districts": []
+        },
+        {
+          "code": "NW",
+          "name": "North West",
+          "districts": []
+        },
+        {
+          "code": "NC",
+          "name": "Northern Cape",
+          "districts": []
+        }
+      ],
+      "regionLabel": "Province",
+      "postalLabel": "Postal code",
+      "postalRequired": true,
+      "active": true
+    },
+    {
+      "code": "ZW",
+      "name": "Zimbabwe",
+      "flag": "\ud83c\uddff\ud83c\uddfc",
+      "dialCode": "+263",
+      "locale": "en-ZW",
+      "timeZone": "Africa/Harare",
+      "defaultCurrency": "ZWG",
+      "currencies": [
+        "ZWG"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "Province",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "BW",
+      "name": "Botswana",
+      "flag": "\ud83c\udde7\ud83c\uddfc",
+      "dialCode": "+267",
+      "locale": "en-BW",
+      "timeZone": "Africa/Gaborone",
+      "defaultCurrency": "BWP",
+      "currencies": [
+        "BWP"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "District",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "NA",
+      "name": "Namibia",
+      "flag": "\ud83c\uddf3\ud83c\udde6",
+      "dialCode": "+264",
+      "locale": "en-NA",
+      "timeZone": "Africa/Windhoek",
+      "defaultCurrency": "NAD",
+      "currencies": [
+        "NAD"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "Region",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "LS",
+      "name": "Lesotho",
+      "flag": "\ud83c\uddf1\ud83c\uddf8",
+      "dialCode": "+266",
+      "locale": "en-LS",
+      "timeZone": "Africa/Maseru",
+      "defaultCurrency": "LSL",
+      "currencies": [
+        "LSL"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "District",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "SZ",
+      "name": "Eswatini",
+      "flag": "\ud83c\uddf8\ud83c\uddff",
+      "dialCode": "+268",
+      "locale": "en-SZ",
+      "timeZone": "Africa/Mbabane",
+      "defaultCurrency": "SZL",
+      "currencies": [
+        "SZL"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "Region",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "MZ",
+      "name": "Mozambique",
+      "flag": "\ud83c\uddf2\ud83c\uddff",
+      "dialCode": "+258",
+      "locale": "pt-MZ",
+      "timeZone": "Africa/Maputo",
+      "defaultCurrency": "MZN",
+      "currencies": [
+        "MZN"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "Province",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "ZM",
+      "name": "Zambia",
+      "flag": "\ud83c\uddff\ud83c\uddf2",
+      "dialCode": "+260",
+      "locale": "en-ZM",
+      "timeZone": "Africa/Lusaka",
+      "defaultCurrency": "ZMW",
+      "currencies": [
+        "ZMW"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "Province",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    },
+    {
+      "code": "MW",
+      "name": "Malawi",
+      "flag": "\ud83c\uddf2\ud83c\uddfc",
+      "dialCode": "+265",
+      "locale": "en-MW",
+      "timeZone": "Africa/Blantyre",
+      "defaultCurrency": "MWK",
+      "currencies": [
+        "MWK"
+      ],
+      "documents": [
+        {
+          "key": "passport",
+          "label": "Passport",
+          "pattern": "^[A-Z0-9]{6,20}$",
+          "validator": "pattern",
+          "required": true
+        }
+      ],
+      "regions": [],
+      "regionLabel": "Region",
+      "postalLabel": "Postal code",
+      "postalRequired": false,
+      "active": true
+    }
+  ],
+  "financialRules": [
+    {
+      "country": "ZA",
+      "currency": "ZAR",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "ZA",
+      "currency": "USD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "ZW",
+      "currency": "USD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "ZW",
+      "currency": "ZWG",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "ZW",
+      "currency": "ZAR",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "BW",
+      "currency": "BWP",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "BW",
+      "currency": "USD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "NA",
+      "currency": "NAD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "NA",
+      "currency": "ZAR",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "LS",
+      "currency": "LSL",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "LS",
+      "currency": "ZAR",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "SZ",
+      "currency": "SZL",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "SZ",
+      "currency": "ZAR",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "MZ",
+      "currency": "MZN",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "MZ",
+      "currency": "USD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "ZM",
+      "currency": "ZMW",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "ZM",
+      "currency": "USD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "MW",
+      "currency": "MWK",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    },
+    {
+      "country": "MW",
+      "currency": "USD",
+      "minimum": 1,
+      "maximum": 100000,
+      "dailyLimit": 250000,
+      "fixedFee": 0,
+      "percentageFee": 0
+    }
+  ],
+  "accountTypes": [
+    "Cheque",
+    "Savings"
+  ],
+  "maximumAccounts": 10,
+  "accountNumberDigits": 12,
+  "reservationSeconds": 300
+}

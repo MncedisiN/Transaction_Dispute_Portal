@@ -1,0 +1,1 @@
+CAST({{Column}} AS {{SqlExpression}})

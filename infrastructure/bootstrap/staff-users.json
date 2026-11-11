@@ -1,0 +1,10 @@
+[
+  {
+    "Email": "admin@assessment.local",
+    "FirstName": "Portal",
+    "LastName": "Administrator",
+    "Roles": [
+      "super_admin"
+    ]
+  }
+]

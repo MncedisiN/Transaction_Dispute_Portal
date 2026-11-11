@@ -1,0 +1,7 @@
+services:
+  sqlserver:
+    ports:
+      - "127.0.0.1:14333:1433"
+  postgres:
+    ports:
+      - "127.0.0.1:55433:5432"

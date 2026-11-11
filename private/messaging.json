@@ -1,0 +1,18 @@
+{
+  "Infobip": {
+    "Enabled": true,
+    "BaseUrl": "https://8v3v3e.api.infobip.com/",
+    "SmsApiKey": "3bf37ab7ac84e919c171e28bbe8c22ed-f461d5ba-3f6c-4961-a9b1-39950c9c6b0c",
+    "SmsSender": "447491163443",
+    "EmailApiKey": "9bb2ef833a129f6f190774bcaa3e4fac-874fe489-b04c-4242-9c73-f93f5b5bf96b",
+    "EmailFromAddress": "noreply@starindustries.co.za",
+    "WhatsAppApiKey": "a05c0de7363053f0c674c532313f5d2a-14b17fa7-9ef2-42ac-bcc8-57d1528fd71a",
+    "WhatsAppSender": "447860088970",
+    "WhatsAppTemplateName": "test_whatsapp_template_en",
+    "WhatsAppTemplateLanguage": "en",
+    "WhatsAppTemplateIncludesAction": false,
+    "WhatsAppTemplateUsesOtpButton": false,
+    "WhatsAppTemplateCodeOnly": false,
+    "NotificationWhatsAppTemplateName": "test_whatsapp_template_en"
+  }
+}

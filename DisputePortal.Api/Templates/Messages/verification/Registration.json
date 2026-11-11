@@ -1,0 +1,5 @@
+{
+  "subject": "Verify Your {brand} Account",
+  "action": "account registration",
+  "text": "Your {brand} {action} code is {code}. It expires in {minutes} minutes. Use it to complete your account registration. Never share this code."
+}

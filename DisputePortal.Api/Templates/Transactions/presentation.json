@@ -1,0 +1,29 @@
+{
+  "fallbackLabel": "Transaction",
+  "types": {
+    "CardPurchase": "Card Purchase",
+    "CreditCardPayment": "Credit Card Payment",
+    "OnlineCardPurchase": "Online Card Purchase",
+    "DebitOrder": "Debit Order",
+    "Transfer": "Internal Transfer",
+    "InternalTransfer": "Internal Transfer",
+    "ImmediatePayment": "Immediate Payment",
+    "BeneficiaryPayment": "Beneficiary Payment",
+    "CashWithdrawal": "Cash Withdrawal",
+    "Deposit": "Deposit",
+    "Withdrawal": "Withdrawal",
+    "Refund": "Dispute Refund",
+    "Recall": "Refund Reversal",
+    "Fee": "Bank Fee",
+    "Airtime": "Airtime And Data",
+    "PrepaidPurchase": "Prepaid Purchase",
+    "Interest": "Interest",
+    "Salary": "Salary Credit"
+  },
+  "descriptionPatterns": [
+    "(?i)\\b(refund threshold|synthetic|fixture|test-only)\\b",
+    "(?i)^(repeated|older)\\b"
+  ],
+  "descriptionWithMerchant": "{typeLabel} \u00b7 {merchant}",
+  "descriptionWithoutMerchant": "{typeLabel}"
+}

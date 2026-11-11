@@ -1,0 +1,21 @@
+<Solution>
+  <Project Path="Contracts/Contracts.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="Configuration/Configuration.csproj" />
+  <Project Path="Accounts/Accounts.csproj" />
+  <Project Path="Ledger/Ledger.csproj" />
+  <Project Path="Transactions/Transactions.csproj" />
+  <Project Path="Payments/Payments.csproj" />
+  <Project Path="Notifications/Notifications.csproj" />
+  <Project Path="Audit/Audit.csproj" />
+  <Project Path="Reporting/Reporting.csproj" />
+  <Project Path="Scheduling/Scheduling.csproj" />
+  <Project Path="ReversalReviews/ReversalReviews.csproj" />
+  <Project Path="Tests/Platform.Tests.csproj" />
+  <Project Path="Verification/Verification.csproj" />
+  <Project Path="RecoveryVerification/RecoveryVerification.csproj" />
+  <Project Path="SqlVerification/SqlVerification.csproj" />
+  <Project Path="Administration/Administration.csproj" />
+  <Project Path="Migration/Migration.csproj" />
+  <Project Path="CaseVerification/CaseVerification.csproj" />
+</Solution>

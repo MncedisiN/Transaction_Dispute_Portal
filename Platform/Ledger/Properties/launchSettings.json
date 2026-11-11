@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Dispute Portal Local": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "workingDirectory": "../..",
+      "applicationUrl": "http://127.0.0.1:8092",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PLATFORM_SETTINGS": ".local-run/platform/settings/ledger.json",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "PortalLogging__Directory": ".local-run/logs/visual-studio/ledger",
+        "DOTNET_gcServer": "0",
+        "DOTNET_PROCESSOR_COUNT": "2",
+        "Platform__BrokerEnabled": "false",
+        "Redis__Enabled": "false"
+      }
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "AssessmentData": {
+    "PollSeconds": 3,
+    "BatchSize": 25,
+    "HistoryDays": 30,
+    "Accounts": [
+      {
+        "Type": "Cheque",
+        "Transactions": [
+          {
+            "Code": "opening",
+            "Type": "Deposit",
+            "Description": "Opening credit",
+            "Merchant": "Account Funding",
+            "Amount": 20000,
+            "Direction": "Credit",
+            "MinutesBeforePreparation": 120,
+            "DisputeEligible": false
+          },
+          {
+            "Code": "groceries",
+            "Type": "CardPurchase",
+            "Description": "Card purchase",
+            "Merchant": "Metro Grocer",
+            "Amount": 349.95,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 60,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "fuel",
+            "Type": "CardPurchase",
+            "Description": "Card purchase",
+            "Merchant": "City Fuel",
+            "Amount": 199.99,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 40,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "books",
+            "Type": "CreditCardPayment",
+            "Description": "Credit card purchase",
+            "Merchant": "Online Books",
+            "Amount": 59.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 20,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "books-repeat",
+            "Type": "CreditCardPayment",
+            "Description": "Credit card purchase",
+            "Merchant": "Online Books",
+            "Amount": 59.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 18,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "subscription",
+            "Type": "DebitOrder",
+            "Description": "Monthly subscription",
+            "Merchant": "Fitness Studio",
+            "Amount": 149.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 10,
+            "DisputeEligible": true,
+            "DebitOrderScheme": "EFT",
+            "MandateStatus": "Unknown"
+          },
+          {
+            "Code": "insurance",
+            "Type": "DebitOrder",
+            "Description": "Insurance debit order",
+            "Merchant": "Cover Insurance",
+            "Amount": 549.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 5,
+            "DisputeEligible": true,
+            "DebitOrderScheme": "EFT",
+            "MandateStatus": "Unknown"
+          }
+        ]
+      },
+      {
+        "Type": "Savings",
+        "Transactions": [
+          {
+            "Code": "opening",
+            "Type": "Deposit",
+            "Description": "Opening credit",
+            "Merchant": "Account Funding",
+            "Amount": 10000,
+            "Direction": "Credit",
+            "MinutesBeforePreparation": 120,
+            "DisputeEligible": false
+          },
+          {
+            "Code": "groceries",
+            "Type": "CardPurchase",
+            "Description": "Card purchase",
+            "Merchant": "Metro Grocer",
+            "Amount": 349.95,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 60,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "fuel",
+            "Type": "CardPurchase",
+            "Description": "Card purchase",
+            "Merchant": "City Fuel",
+            "Amount": 199.99,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 40,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "books",
+            "Type": "CreditCardPayment",
+            "Description": "Credit card purchase",
+            "Merchant": "Online Books",
+            "Amount": 59.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 20,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "books-repeat",
+            "Type": "CreditCardPayment",
+            "Description": "Credit card purchase",
+            "Merchant": "Online Books",
+            "Amount": 59.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 18,
+            "DisputeEligible": true
+          },
+          {
+            "Code": "subscription",
+            "Type": "DebitOrder",
+            "Description": "Monthly subscription",
+            "Merchant": "Fitness Studio",
+            "Amount": 149.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 10,
+            "DisputeEligible": true,
+            "DebitOrderScheme": "EFT",
+            "MandateStatus": "Unknown"
+          },
+          {
+            "Code": "insurance",
+            "Type": "DebitOrder",
+            "Description": "Insurance debit order",
+            "Merchant": "Cover Insurance",
+            "Amount": 549.0,
+            "Direction": "Debit",
+            "MinutesBeforePreparation": 5,
+            "DisputeEligible": true,
+            "DebitOrderScheme": "EFT",
+            "MandateStatus": "Unknown"
+          }
+        ]
+      }
+    ]
+  }
+}

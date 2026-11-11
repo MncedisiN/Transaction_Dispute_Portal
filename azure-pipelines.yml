@@ -1,0 +1,17 @@
+trigger:
+  - main
+  - master
+pool:
+  vmImage: ubuntu-latest
+steps:
+  - checkout: self
+  - script: docker compose config --quiet
+    displayName: Validate application wiring
+  - script: docker build -f infrastructure/Docker/Bootstrap.Dockerfile -t bootstrap-check .
+    displayName: Build .NET installation initializer
+  - script: docker build --target test -t api-tests .
+    displayName: Test API business workflows and installation settings
+  - script: docker build -f infrastructure/Docker/Platform.Dockerfile --target test -t financial-tests .
+    displayName: Test financial rules
+  - script: docker build -f DisputePortal.App/Dockerfile --target test -t frontend-checks DisputePortal.App
+    displayName: Build and lint Vue frontend

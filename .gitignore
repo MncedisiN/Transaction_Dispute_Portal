@@ -1,0 +1,38 @@
+# Generated files and local environments
+**/.git/
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.vs/
+**/.idea/
+**/.vscode/
+**/Logs/
+**/logs/
+**/coverage/
+**/TestResults/
+**/test-results/
+**/playwright-report/
+.local-run/
+.env
+.env.*
+**/appsettings.*.local.json
+**/*.user
+**/*.suo
+**/*.log
+**/*.bak
+**/*.dump
+**/*.pfx
+**/*.p12
+**/*.pem
+**/*.key
+**/*.cer
+**/*.crt
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+# private/messaging.json is intentionally included for this controlled assessment.
+# It contains testing provider credentials and must not be published in a public repository.
+
+# Non-secret build resource settings are part of this assessment.
+!.env

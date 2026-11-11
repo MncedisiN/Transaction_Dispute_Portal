@@ -1,0 +1,12 @@
+allowBuilds:
+  "@tailwindcss/oxide": true
+  esbuild: true
+  vue-demi: true
+minimumReleaseAgeExclude:
+  - '@lucide/vue@1.64.0'
+
+# Security pins for build/test tooling; remove after upstream ranges include these fixes.
+overrides:
+  minimatch: 11.0.3
+  'glob@>=9.0.0 <14.0.2': 14.0.3
+  filelist: 2.0.2

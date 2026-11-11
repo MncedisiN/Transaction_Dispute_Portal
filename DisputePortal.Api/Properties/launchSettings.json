@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Dispute Portal API": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:8081",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DevelopmentSeed__Enabled": "false",
+        "BankingProvisioning__Enabled": "false",
+        "Redis__Enabled": "false",
+        "Platform__BrokerEnabled": "false"
+      }
+    }
+  }
+}

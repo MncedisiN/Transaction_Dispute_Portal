@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+playwright-report
+test-results
+pnpm-lock.yaml
+src/vendor/
+public/w3.css
+public/w3-theme-blue.css

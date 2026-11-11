@@ -1,0 +1,5 @@
+ALTER DATABASE [{{Database}}]
+SET
+    SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+DROP DATABASE [{{RelatedDatabase}}]

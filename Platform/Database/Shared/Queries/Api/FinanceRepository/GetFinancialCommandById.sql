@@ -1,0 +1,2 @@
+{{SelectQuery}}
+WHERE "publicId" = @Id

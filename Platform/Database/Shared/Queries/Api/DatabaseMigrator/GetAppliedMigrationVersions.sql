@@ -1,0 +1,3 @@
+SELECT
+    version
+FROM {{MigrationHistoryTable}}

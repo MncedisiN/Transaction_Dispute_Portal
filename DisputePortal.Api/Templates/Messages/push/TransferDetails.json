@@ -1,0 +1,5 @@
+{
+  "subject": "{brand}",
+  "action": "",
+  "text": "Transferred {amount} from {source} to {target}."
+}

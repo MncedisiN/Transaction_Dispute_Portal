@@ -1,0 +1,5 @@
+{
+  "subject": "Dispute Outcome Available",
+  "action": "",
+  "text": "{subject}. Sign in to {brand} to view the details securely.\n\n{portalLink}"
+}

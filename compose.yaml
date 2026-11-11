@@ -1,0 +1,875 @@
+{
+  "name": "capitec-dispute-portal",
+  "volumes": {
+    "accounts-settings": {},
+    "assessment-data-protection": {},
+    "application-logs": {},
+    "notifications-settings": {},
+    "identity-settings": {},
+    "reporting-settings": {},
+    "configuration-settings": {},
+    "scheduling-settings": {},
+    "postgres-setup": {},
+    "assessment-postgres": {},
+    "transactions-settings": {},
+    "audit-settings": {},
+    "installation-state": {},
+    "payments-settings": {},
+    "ledger-settings": {},
+    "debt-settings": {},
+    "sqlserver-setup": {},
+    "assessment-sqlserver": {},
+    "local-https": {}
+  },
+  "services": {
+    "api": {
+      "volumes": [
+        "identity-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application",
+        "assessment-data-protection:/var/dp-keys"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "configuration": {
+          "condition": "service_healthy"
+        },
+        "transactions": {
+          "condition": "service_healthy"
+        },
+        "reporting": {
+          "condition": "service_healthy"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        },
+        "scheduling": {
+          "condition": "service_healthy"
+        },
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "notifications": {
+          "condition": "service_healthy"
+        },
+        "audit": {
+          "condition": "service_healthy"
+        },
+        "debt": {
+          "condition": "service_healthy"
+        },
+        "accounts": {
+          "condition": "service_healthy"
+        },
+        "payments": {
+          "condition": "service_healthy"
+        },
+        "ledger": {
+          "condition": "service_healthy"
+        },
+        "api-setup": {
+          "condition": "service_completed_successfully"
+        }
+      },
+      "entrypoint": [
+        "dotnet",
+        "DisputePortal.Api.dll"
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "Dockerfile"
+      },
+      "environment": {
+        "Platform__SettingsPath": "/run/portal/settings.json",
+        "PortalLogging__Directory": "/app/Logs/Application/api",
+        "PortalLogging__ConsoleEnabled": "true",
+        "Redis__Enabled": "false",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Provider": "${API_DATABASE_PROVIDER:-SqlServer}",
+        "Authentication__AllowStaffLoginPreference": "false",
+        "Platform__Enabled": "true",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "Authentication__RequireStaffMfa": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "BankingProvisioning__Enabled": "false",
+        "Platform__BrokerEnabled": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "DevelopmentSeed__Enabled": "true",
+        "DataProtection__KeysDirectory": "/var/dp-keys",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Authentication__LoginOtpEnabled": "false"
+      }
+    },
+    "reporting": {
+      "volumes": [
+        "reporting-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Reporting"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/reporting",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "payments": {
+      "volumes": [
+        "payments-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Payments"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/payments",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "notifications": {
+      "volumes": [
+        "notifications-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Notifications"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/notifications",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "web": {
+      "depends_on": {
+        "api": {
+          "condition": "service_healthy"
+        },
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        }
+      },
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": "./DisputePortal.App"
+      },
+      "restart": "unless-stopped",
+      "ports": [
+        "${PORTAL_HTTP_BIND:-127.0.0.1:8080}:8080",
+        "${PORTAL_HTTPS_BIND:-127.0.0.1:8443}:8443",
+        "${PORTAL_SETUP_BIND:-127.0.0.1:8081}:8081"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "volumes": [
+        "local-https:/run/https:ro"
+      ]
+    },
+    "postgres": {
+      "environment": {
+        "POSTGRES_PASSWORD_FILE": "/run/setup/admin-password",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_DB": "postgres"
+      },
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "set -e; mkdir -p /docker-entrypoint-initdb.d; cp /run/setup/init/00-databases.sql /docker-entrypoint-initdb.d/00-databases.sql; chown postgres:postgres /docker-entrypoint-initdb.d/00-databases.sql; chmod 600 /docker-entrypoint-initdb.d/00-databases.sql; exec /usr/local/bin/docker-entrypoint.sh postgres"
+      ],
+      "healthcheck": {
+        "retries": 30,
+        "test": [
+          "CMD-SHELL",
+          "pg_isready -h 127.0.0.1 -U postgres -d postgres"
+        ],
+        "timeout": "5s",
+        "interval": "5s",
+        "start_period": "10s"
+      },
+      "volumes": [
+        "assessment-postgres:/var/lib/postgresql/data",
+        "postgres-setup:/run/setup:ro"
+      ],
+      "restart": "unless-stopped",
+      "image": "postgres:17-bookworm"
+    },
+    "accounts": {
+      "volumes": [
+        "accounts-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Accounts"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/accounts",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "bootstrap": {
+      "restart": "no",
+      "environment": {
+        "PORTAL_PUBLIC_URL": "${PORTAL_PUBLIC_URL:-http://localhost:8080}",
+        "PUSH_SUBJECT": "${PUSH_SUBJECT:-}",
+        "PORTAL_PRIVATE_SETTINGS": "/run/private/messaging.json",
+        "API_DATABASE_PROVIDER": "${API_DATABASE_PROVIDER:-SqlServer}",
+        "REQUIRE_CONTACT_VERIFICATION": "${REQUIRE_CONTACT_VERIFICATION:-false}",
+        "EXTERNAL_MESSAGES_ENABLED": "${EXTERNAL_MESSAGES_ENABLED:-false}",
+        "POPULATE_ASSESSMENT_ACCOUNTS": "${POPULATE_ASSESSMENT_ACCOUNTS:-true}",
+        "PORTAL_LAN_IP": "${PORTAL_LAN_IP:-}",
+        "PORTAL_HTTPS_PORT": "${PORTAL_HTTPS_PORT:-8443}"
+      },
+      "volumes": [
+        "installation-state:/state",
+        "postgres-setup:/settings/postgres",
+        "identity-settings:/settings/identity",
+        "configuration-settings:/settings/configuration",
+        "accounts-settings:/settings/accounts",
+        "ledger-settings:/settings/ledger",
+        "transactions-settings:/settings/transactions",
+        "payments-settings:/settings/payments",
+        "notifications-settings:/settings/notifications",
+        "audit-settings:/settings/audit",
+        "reporting-settings:/settings/reporting",
+        "scheduling-settings:/settings/scheduling",
+        "debt-settings:/settings/debt",
+        {
+          "type": "bind",
+          "source": "./private",
+          "target": "/run/private",
+          "read_only": true
+        },
+        "sqlserver-setup:/settings/sqlserver",
+        "local-https:/settings/https"
+      ],
+      "build": {
+        "dockerfile": "infrastructure/Docker/Bootstrap.Dockerfile",
+        "context": "."
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ]
+    },
+    "ledger": {
+      "volumes": [
+        "ledger-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Ledger"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/ledger",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "scheduling": {
+      "volumes": [
+        "scheduling-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Scheduling"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/scheduling",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "audit": {
+      "volumes": [
+        "audit-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Audit"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/audit",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "configuration": {
+      "volumes": [
+        "configuration-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Configuration"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/configuration",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "transactions": {
+      "volumes": [
+        "transactions-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "Transactions"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/transactions",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "debt": {
+      "volumes": [
+        "debt-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "unless-stopped",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        }
+      },
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "dotnet \"$$SERVICE_DLL\" --migrate && exec dotnet \"$$SERVICE_DLL\""
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "infrastructure/Docker/Platform.Dockerfile",
+        "args": {
+          "SERVICE_NAME": "ReversalReviews"
+        }
+      },
+      "environment": {
+        "PLATFORM_SETTINGS": "/run/portal/settings.json",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Platform__BrokerEnabled": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "PortalLogging__Directory": "/app/Logs/Application/debt",
+        "PortalLogging__ConsoleEnabled": "true",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Redis__Enabled": "false"
+      }
+    },
+    "sqlserver": {
+      "image": "mcr.microsoft.com/mssql/server:2025-latest",
+      "environment": {
+        "ACCEPT_EULA": "Y",
+        "MSSQL_PID": "Developer",
+        "MSSQL_MEMORY_LIMIT_MB": "${SQLSERVER_MEMORY_LIMIT_MB:-1024}"
+      },
+      "entrypoint": [
+        "/bin/bash",
+        "-c",
+        "export MSSQL_SA_PASSWORD=\"$$(cat /run/setup/admin-password)\"; exec /opt/mssql/bin/sqlservr"
+      ],
+      "volumes": [
+        "assessment-sqlserver:/var/opt/mssql",
+        "sqlserver-setup:/run/setup:ro"
+      ],
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        }
+      },
+      "restart": "unless-stopped",
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "SQLCMDPASSWORD=\"$$(cat /run/setup/admin-password)\" /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -C -Q \"SELECT 1\" -b -o /dev/null"
+        ],
+        "interval": "5s",
+        "timeout": "5s",
+        "retries": 60,
+        "start_period": "20s"
+      }
+    },
+    "sqlserver-setup": {
+      "image": "mcr.microsoft.com/mssql/server:2025-latest",
+      "entrypoint": [
+        "/bin/bash",
+        "/run/initialize-sqlserver.sh"
+      ],
+      "volumes": [
+        "sqlserver-setup:/run/setup:ro",
+        "./infrastructure/database/initialize-sqlserver.sh:/run/initialize-sqlserver.sh:ro",
+        "./DisputePortal.Api/Database/SqlServer/Initialization:/run/schema:ro"
+      ],
+      "depends_on": {
+        "sqlserver": {
+          "condition": "service_healthy"
+        }
+      },
+      "restart": "no"
+    },
+    "api-setup": {
+      "volumes": [
+        "identity-settings:/run/portal:ro",
+        "application-logs:/app/Logs/Application",
+        "assessment-data-protection:/var/dp-keys"
+      ],
+      "stop_grace_period": "30s",
+      "restart": "no",
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "if [ \"$$Database__Provider\" = \"PostgreSql\" ]; then exec dotnet DisputePortal.Api.dll --initialize; fi"
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-file": "3",
+          "max-size": "10m"
+        }
+      },
+      "cap_drop": [
+        "ALL"
+      ],
+      "build": {
+        "context": ".",
+        "dockerfile": "Dockerfile"
+      },
+      "environment": {
+        "Platform__SettingsPath": "/run/portal/settings.json",
+        "PortalLogging__Directory": "/app/Logs/Application/api",
+        "PortalLogging__ConsoleEnabled": "true",
+        "Redis__Enabled": "false",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Provider": "${API_DATABASE_PROVIDER:-SqlServer}",
+        "Authentication__AllowStaffLoginPreference": "false",
+        "Platform__Enabled": "true",
+        "ASPNETCORE_URLS": "http://+:8080",
+        "Authentication__RequireStaffMfa": "false",
+        "Database__ApplyMigrationsOnStartup": "false",
+        "BankingProvisioning__Enabled": "false",
+        "Platform__BrokerEnabled": "false",
+        "DOTNET_gcServer": "${DOTNET_SERVER_GC:-0}",
+        "DevelopmentSeed__Enabled": "false",
+        "DataProtection__KeysDirectory": "/var/dp-keys",
+        "DOTNET_PROCESSOR_COUNT": "${SERVICE_PROCESSOR_COUNT:-2}",
+        "Authentication__LoginOtpEnabled": "false"
+      },
+      "depends_on": {
+        "bootstrap": {
+          "condition": "service_completed_successfully"
+        },
+        "postgres": {
+          "condition": "service_healthy"
+        },
+        "sqlserver-setup": {
+          "condition": "service_completed_successfully"
+        }
+      }
+    }
+  }
+}
