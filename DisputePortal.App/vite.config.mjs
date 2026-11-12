@@ -67,13 +67,9 @@ export default defineConfig({
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api(?:\/|$)/, /^\/install(?:\/|$)/],
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
-        runtimeCaching: [
-          {
-            urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
-            handler: 'NetworkOnly',
-            options: { cacheName: 'private-api-never-cache' }
-          }
-        ]
+        // Private API traffic uses the browser network stack directly. Even a
+        // NetworkOnly handler intercepts fetches and can block Safari recovery.
+        runtimeCaching: []
       }
     })
   ],

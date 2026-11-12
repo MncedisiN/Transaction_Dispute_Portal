@@ -101,7 +101,7 @@ test('PWA serves its manifest, red shield icons, offline page and push worker', 
   expect(worker.ok()).toBe(true)
   const workerSource = await worker.text()
   expect(workerSource).toContain('push-events.js')
-  expect(workerSource).toContain('NetworkOnly')
+  expect(workerSource).not.toContain('private-api-never-cache')
   const push = await request.get('/push-events.js')
   expect(push.ok()).toBe(true)
   expect(await push.text()).toContain('showNotification')

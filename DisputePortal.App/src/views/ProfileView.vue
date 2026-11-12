@@ -278,7 +278,6 @@ useFeedback(error, success, undefined)
       aria-label="Profile Sections"
     >
       <button
-        :class="{ 'w3-theme-l4 w3-text-black': (activeTab === 'details') === true }"
         class="w3-button w3-round-large w3-center w3-col s4 w3-padding-16"
         type="button"
         :aria-pressed="activeTab === 'details'"
@@ -287,7 +286,6 @@ useFeedback(error, success, undefined)
         Details
       </button>
       <button
-        :class="{ 'w3-theme-l4 w3-text-black': (activeTab === 'security') === true }"
         class="w3-button w3-round-large w3-center w3-col s4 w3-padding-16"
         type="button"
         :aria-pressed="activeTab === 'security'"
@@ -296,7 +294,6 @@ useFeedback(error, success, undefined)
         Security
       </button>
       <button
-        :class="{ 'w3-theme-l4 w3-text-black': (activeTab === 'alerts') === true }"
         class="w3-button w3-round-large w3-center w3-col s4 w3-padding-16"
         type="button"
         :aria-pressed="activeTab === 'alerts'"

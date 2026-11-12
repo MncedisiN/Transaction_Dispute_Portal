@@ -230,9 +230,6 @@ useFeedback(error, undefined, undefined)
 <template>
   <AppShell class="customer-activity-page">
     <PageHeading title="Transactions" />
-    <p class="history-window-hint">
-      First {{ clientOption('transactionHistoryDays') }} days after account opening
-    </p>
     <section
       class="surface-panel transaction-history w3-container w3-margin-bottom w3-section w3-white w3-padding-large w3-round-xlarge w3-border w3-border-light-grey"
     >
@@ -431,7 +428,6 @@ useFeedback(error, undefined, undefined)
               : (data?.total ?? 0) + (data?.total === 1 ? ' transaction' : ' transactions')
           }}
         </span>
-        <span class="w3-block w3-small w3-text-grey">Amounts In Account Currency</span>
       </div>
       <TransactionList
         v-if="!error"
@@ -442,7 +438,7 @@ useFeedback(error, undefined, undefined)
       />
       <div
         v-if="data && data.total > data.pageSize"
-        class="pagination w3-container w3-section w3-center"
+        class="pagination transaction-pagination"
       >
         <span>
           Page {{ data.page }}

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { useFeedback } from '../composables/useFeedback'
 
+import { useAuthStore } from '../stores/auth'
+import { customerActivityText } from '../utils/customerPresentation'
+const auth = useAuthStore()
 import { statusReferences } from '../portalReference'
 import ActionActor from './ActionActor.vue'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
@@ -19,7 +22,7 @@ const activityLabels: Record<string, string> = {
   Reopened: 'Dispute Reopened',
   EvidenceSubmitted: 'Evidence Submitted',
   EvidenceRemoved: 'Evidence Removed',
-  CustomerMessage: 'Customer Message',
+  CustomerMessage: 'Your Message',
   AgentReply: 'Specialist Reply',
   AutomaticDecision: 'Automatic Decision',
   DisputeRefundApproved: 'Refund Approved',
@@ -78,12 +81,12 @@ useFeedback(error, undefined, undefined)
       <li
         v-for="item in items"
         :key="item.action + item.id"
-        class="w3-padding-16 w3-leftbar w3-border-blue-grey"
+        class="case-activity-item"
       >
-        <span class="staff-timeline-dot w3-hide" />
         <div>
           <b>
             {{
+              (!auth.isStaffWorkspace && statusReferences[item.action]?.customerLabel) ||
               statusReferences[item.action]?.label ||
               activityLabels[item.action] ||
               item.action.replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -96,12 +99,13 @@ useFeedback(error, undefined, undefined)
             {{ formatDate(item.occurredAt) }}
           </time>
           <p v-if="item.detail">
-            {{ item.detail }}
+            {{ auth.isStaffWorkspace ? item.detail : customerActivityText(item.detail) }}
           </p>
           <ActionActor
             :identity="item.actorIdentity"
             compact
             :fallback="item.actor"
+            :action="item.action"
           />
         </div>
       </li>

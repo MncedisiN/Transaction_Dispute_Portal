@@ -203,11 +203,13 @@ useFeedback(error, undefined, undefined)
       v-else-if="confirmation"
       class="confirmation-panel surface-panel w3-container w3-margin-bottom w3-section w3-white w3-padding-large w3-round-xlarge w3-border w3-border-light-grey"
     >
-      <span class="confirmation-mark w3-tag w3-theme-d5 w3-round-large w3-padding">
-        <BadgeCheck :size="30" />
-      </span>
-      <h1 class="w3-xxlarge w3-sans-serif w3-text-black">Dispute Received</h1>
-      <p>Add evidence below.</p>
+      <div class="confirmation-hero">
+        <span class="confirmation-mark w3-tag w3-theme-d5 w3-round-large w3-padding">
+          <BadgeCheck :size="30" />
+        </span>
+        <h1 class="w3-xxlarge w3-sans-serif w3-text-black">Dispute Received</h1>
+        <p>We’ve received your dispute. You can follow its progress at any time.</p>
+      </div>
       <div class="reference-box w3-panel w3-light-grey w3-padding-large w3-round-xlarge">
         <small class="w3-small">Your dispute reference</small>
         <div class="reference-value w3-block">
@@ -215,6 +217,9 @@ useFeedback(error, undefined, undefined)
           <CopyReference :reference="confirmation" />
         </div>
       </div>
+      <p class="confirmation-evidence-intro">
+        Have anything else to share? Add supporting evidence below.
+      </p>
       <EvidencePanel
         v-if="createdCaseId"
         :case-id="createdCaseId"
@@ -243,24 +248,31 @@ useFeedback(error, undefined, undefined)
       v-else-if="intake && !intake.canStart"
       class="surface-panel dispute-intake-state w3-container w3-margin-bottom w3-section w3-white w3-padding-large w3-round-xlarge w3-border w3-border-light-grey"
     >
-      <ShieldCheck :size="28" />
-      <h1 class="w3-xxlarge w3-sans-serif w3-text-black">
+      <span
+        class="intake-mark"
+        aria-hidden="true"
+      >
+        <ShieldCheck :size="28" />
+      </span>
+      <h1 class="w3-sans-serif w3-text-black">
         {{ intake.activeDisputeId ? 'Dispute Already Open' : 'Dispute Unavailable' }}
       </h1>
       <p>{{ intake.blockReason || intake.message }}</p>
-      <RouterLink
-        v-if="intake.activeDisputeId"
-        :to="'/disputes/' + intake.activeDisputeId"
-        class="button button-primary w3-button w3-theme-d5 w3-block w3-round-large w3-padding-16 w3-margin-bottom"
-      >
-        View Existing Dispute
-      </RouterLink>
-      <RouterLink
-        :to="'/transactions/' + route.params.transactionId"
-        class="button button-secondary w3-button w3-white w3-border w3-block w3-round-large w3-padding w3-margin-bottom"
-      >
-        Back To Transaction
-      </RouterLink>
+      <div class="intake-actions">
+        <RouterLink
+          v-if="intake.activeDisputeId"
+          :to="'/disputes/' + intake.activeDisputeId"
+          class="button button-primary w3-button w3-theme-d5 w3-block w3-round-large w3-padding-16 w3-margin-bottom"
+        >
+          View Existing Dispute
+        </RouterLink>
+        <RouterLink
+          :to="'/transactions/' + route.params.transactionId"
+          class="button button-secondary w3-button w3-white w3-border w3-block w3-round-large w3-padding w3-margin-bottom"
+        >
+          Back To Transaction
+        </RouterLink>
+      </div>
     </section>
     <template v-else-if="transaction && intake?.canStart === true">
       <PageHeading title="Dispute Transaction" />

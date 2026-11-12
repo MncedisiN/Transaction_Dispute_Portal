@@ -12,7 +12,9 @@ import type { DisputeDetail, Transaction } from '../types'
 import type { CaseOperations } from '../operations'
 import { formatMoney } from '../utils/format'
 import { caseDate, isClosedStatus } from '../utils/casePresentation'
-import { caseTeams } from '../operations'
+import { customerResolutionLabel, customerActivityText } from '../utils/customerPresentation'
+import { useAuthStore } from '../stores/auth'
+const auth = useAuthStore()
 import EvidencePanel from '../components/EvidencePanel.vue'
 import AppShell from '../components/AppShell.vue'
 import StatusBadge from '../components/StatusBadge.vue'
@@ -240,25 +242,28 @@ useFeedback(error, undefined, undefined)
           v-if="detail.dispute.resolution"
           class="case-outcome w3-panel w3-light-grey w3-round-large w3-padding"
         >
-          <p>{{ detail.dispute.resolution }}</p>
+          <p>{{ customerActivityText(detail.dispute.resolution) }}</p>
         </div>
         <p
           v-if="closed && detail.resolvedBy"
           class="case-resolver w3-small w3-text-grey w3-section"
         >
-          {{ detail.dispute.status === 'Resolved' ? 'Resolved by' : 'Closed by' }}
-          <strong>
-            {{
-              detail.resolvedBy.fullName || detail.resolvedBy.accountName || detail.resolvedBy.label
-            }}
-          </strong>
+          {{
+            customerResolutionLabel(
+              detail.resolvedBy,
+              auth.user?.id,
+              detail.dispute.status,
+              detail.dispute.resolution,
+              auth.user?.displayName
+            )
+          }}
         </p>
         <RouterLink
           :to="{
             path: '/support',
             query: { dispute: detail.dispute.id, returnTo: route.fullPath }
           }"
-          class="case-message-link w3-button w3-block w3-left-align w3-padding-16 w3-text-blue-grey w3-topbar w3-border-light-grey"
+          class="case-message-link w3-button w3-block w3-left-align w3-padding-16"
         >
           <MessageCircle
             :size="20"
@@ -267,8 +272,8 @@ useFeedback(error, undefined, undefined)
           <span>
             {{
               detail.dispute.status === 'AwaitingCustomer'
-                ? 'Reply To Your Specialist'
-                : 'Case Messages'
+                ? 'Chat with your specialist agent'
+                : 'Chat with us'
             }}
           </span>
           <ChevronRight
@@ -400,7 +405,9 @@ useFeedback(error, undefined, undefined)
                 >
                   Review Team
                 </th>
-                <td class="w3-mobile">{{ caseTeams[operations.queueType]?.label }}</td>
+                <td class="w3-mobile">
+                  {{ operations.escalatedAt ? 'Specialist agent' : 'Dispute support' }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -421,8 +428,8 @@ useFeedback(error, undefined, undefined)
         <template v-if="confirmingWithdrawal">
           <h2 class="w3-sans-serif w3-large">Withdraw This Dispute?</h2>
           <p>
-            This ends the review and closes case messages. Your dispute and evidence remain in your
-            case history.
+            This ends the review and closes this chat. Your dispute and evidence remain in your case
+            history.
           </p>
           <div class="withdrawal-actions">
             <button
@@ -444,8 +451,7 @@ useFeedback(error, undefined, undefined)
           </div>
         </template>
         <template v-else>
-          <h2 class="w3-sans-serif w3-large">No Longer Need This Review?</h2>
-          <p>You can withdraw your dispute while it is open.</p>
+          <h2 class="w3-sans-serif w3-large">No Longer Need This Dispute?</h2>
           <button
             type="button"
             class="button button-secondary w3-button w3-border w3-block w3-round-large w3-padding w3-margin-bottom"

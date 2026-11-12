@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ShieldCheck } from '@lucide/vue'
+import { useTheme } from '../composables/useTheme'
+
+useTheme()
 </script>
 <template>
   <div class="auth-page w3-white w3-sans-serif">

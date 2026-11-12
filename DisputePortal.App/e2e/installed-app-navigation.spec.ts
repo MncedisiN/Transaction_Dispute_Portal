@@ -51,6 +51,9 @@ test('installed app keeps online sign-in navigation and API responses available'
   expect(navigated?.fromServiceWorker()).toBe(true)
   await expect(second.getByRole('heading', { name: 'Welcome Back', exact: true })).toBeVisible()
 
+  const apiResponse = second.waitForResponse(
+    (response) => new URL(response.url()).pathname === '/api/v1/auth/csrf'
+  )
   const state = await second.evaluate(async () => {
     const response = await fetch('/api/v1/auth/csrf', { credentials: 'include', cache: 'no-store' })
     const body: unknown = await response.json()
@@ -77,6 +80,7 @@ test('installed app keeps online sign-in navigation and API responses available'
       apiCacheEntries
     }
   })
+  expect((await apiResponse).fromServiceWorker()).toBe(false)
   expect(state.online).toBe(true)
   expect(state.secureContext).toBe(true)
   expect(state.controller).toBe(state.expectedWorker)

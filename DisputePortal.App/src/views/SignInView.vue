@@ -122,7 +122,7 @@ useFeedback(error, undefined, notice)
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthLayout class="sign-in-page">
     <h2 class="w3-center w3-sans-serif w3-large">
       <b>{{ verifying ? 'Two-Step Verification' : 'Welcome Back' }}</b>
     </h2>
@@ -152,52 +152,54 @@ useFeedback(error, undefined, notice)
       {{
         verifying
           ? `Enter the verification code sent to ${auth.pendingChallenge?.maskedDestination}.`
-          : 'Your secure dispute workspace.'
+          : 'Access your account securely.'
       }}
     </p>
     <form
-      class="auth-form"
+      class="auth-form sign-in-form"
       @submit.prevent="submit"
     >
       <template v-if="!verifying">
-        <label
-          class="w3-block w3-margin-top w3-text-dark-grey w3-medium"
-          for="login"
-        >
-          Email Or Mobile Number
-        </label>
-        <input
-          id="login"
-          v-model.trim="loginIdentifier"
-          class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
-          type="text"
-          autocomplete="username"
-          maxlength="320"
-          placeholder="Email Or Mobile Number"
-          required
-        />
-        <div class="password-label w3-bar w3-margin-top">
+        <div class="sign-in-field">
           <label
-            class="w3-left w3-padding-small w3-text-dark-grey w3-medium"
-            for="password"
+            class="w3-block w3-text-dark-grey w3-medium"
+            for="login"
           >
-            Password
+            Email Or Mobile Number
           </label>
-          <RouterLink
-            class="w3-right w3-small w3-button w3-padding-small w3-round-large"
-            to="/forgot-password"
-          >
-            Forgot Password?
-          </RouterLink>
+          <input
+            id="login"
+            v-model.trim="loginIdentifier"
+            class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
+            type="text"
+            autocomplete="username"
+            maxlength="320"
+            required
+          />
         </div>
-        <PasswordInput
-          id="password"
-          v-model="password"
-          autocomplete="current-password"
-          :maxlength="reference.password?.maximum ?? undefined"
-          placeholder="Enter Your Password"
-          required
-        />
+        <div class="sign-in-field">
+          <div class="password-label">
+            <label
+              class="w3-text-dark-grey w3-medium"
+              for="password"
+            >
+              Password
+            </label>
+            <RouterLink
+              class="sign-in-recovery w3-small w3-button w3-round-large"
+              to="/forgot-password"
+            >
+              Forgot Password?
+            </RouterLink>
+          </div>
+          <PasswordInput
+            id="password"
+            v-model="password"
+            autocomplete="current-password"
+            :maxlength="reference.password?.maximum ?? undefined"
+            required
+          />
+        </div>
       </template>
       <template v-else>
         <div class="verification-step w3-section">

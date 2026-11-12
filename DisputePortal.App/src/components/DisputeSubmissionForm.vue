@@ -3,7 +3,7 @@ import { useFeedback } from '../composables/useFeedback'
 
 import { computed, ref } from 'vue'
 import { useDisputeInputPolicy } from '../composables/useDisputeInputPolicy'
-import { ArrowLeft, ArrowRight, Check } from '@lucide/vue'
+import { ArrowLeft, ArrowRight } from '@lucide/vue'
 import type { Transaction } from '../types'
 import { useOnline } from '../composables/useOnline'
 import { formatDate, formatMoney } from '../utils/format'
@@ -136,17 +136,11 @@ useFeedback(error, undefined, undefined)
       class="review-step w3-section"
     >
       <div class="review-intro w3-section">
-        <span class="review-check w3-tag w3-theme-d5 w3-round-large w3-padding-small">
-          <Check :size="18" />
-        </span>
-        <div>
-          <h2 class="w3-sans-serif w3-large">Check Everything Looks Right</h2>
-          <p>We’ll use these details to start your review.</p>
-        </div>
+        <h2 class="w3-sans-serif w3-large">Review Your Dispute</h2>
       </div>
       <div class="review-transaction w3-panel w3-light-grey w3-padding-large w3-round-xlarge">
         <div class="review-transaction-heading w3-section">
-          <small class="w3-small w3-block w3-margin-top">TRANSACTION</small>
+          <small class="w3-small w3-block w3-margin-top">Transaction</small>
           <b class="w3-block w3-margin-top">
             {{ transaction.merchantName || transaction.description }}
           </b>
@@ -167,7 +161,7 @@ useFeedback(error, undefined, undefined)
             </b>
           </div>
           <div class="review-disputed-amount w3-section">
-            <small class="w3-small w3-block w3-margin-top">DISPUTED AMOUNT</small>
+            <small class="w3-small w3-block w3-margin-top">Disputed amount</small>
             <strong class="w3-block w3-margin-top">
               {{ formatMoney(transaction.amount, transaction.currency) }}
             </strong>

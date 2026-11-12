@@ -134,9 +134,14 @@ for (const width of [375, 1440]) {
       await page.keyboard.press('Escape')
       await expect(dialog).not.toBeVisible()
     }
+    await page.getByRole('button', { name: 'Profile Menu' }).click()
     await page.getByRole('button', { name: 'Appearance', exact: true }).click()
     const appearance = await dialogFits(page)
-    for (const name of ['Dark', 'Light', 'System'])
+    for (const name of [
+      'Dark Easy on the eyes',
+      'Light Bright and clear',
+      'Use device setting Matches your device'
+    ])
       await appearance.getByRole('button', { name, exact: true }).click()
     await appearance.getByRole('button', { name: 'Close Appearance' }).click()
     await page.goto('/profile?section=security')

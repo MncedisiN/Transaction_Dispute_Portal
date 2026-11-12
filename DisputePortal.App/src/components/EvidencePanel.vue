@@ -216,7 +216,7 @@ onUnmounted(() => {
 })
 function evidenceRemoved() {
   removal.value = null
-  notice.value = 'File removed. Its protected record is retained.'
+  notice.value = 'File removed.'
   void load()
   emit('changed')
 }
@@ -480,7 +480,7 @@ useFeedback(error, undefined, notice)
             v-if="
               !file.deletedAt && (file.canRemoveOwn || (props.canManageAccess && file.canRemove))
             "
-            class="button button-secondary w3-button w3-border w3-block w3-round-large w3-padding w3-margin-bottom"
+            class="button button-secondary evidence-remove w3-button w3-border w3-block w3-round-large w3-padding w3-margin-bottom"
             @click="removal = file"
           >
             <Trash2

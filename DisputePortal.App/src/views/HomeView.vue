@@ -294,7 +294,7 @@ useFeedback(error, undefined, notice)
             <div
               v-for="a in accounts"
               :key="a.id"
-              class="w3-col s6 w3-margin-bottom w3-padding-small"
+              class="w3-col s6 w3-margin-bottom"
             >
               <button
                 class="w3-button w3-block w3-border w3-round-large w3-padding-16 w3-left-align"

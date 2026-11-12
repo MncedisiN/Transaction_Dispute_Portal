@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { customerActor } from '../utils/customerPresentation'
+
 import DisclosurePanel from './DisclosurePanel.vue'
 import { useConversationActions } from '../composables/useConversationActions'
 import { useFeedback } from '../composables/useFeedback'
@@ -470,9 +472,7 @@ useFeedback(error, undefined, undefined)
         </span>
         <h2 class="w3-large w3-sans-serif">
           <b>
-            {{
-              title || (disputeId ? 'Case Messages' : relatedDisputeId ? 'Case Enquiry' : 'Support')
-            }}
+            {{ title || (auth.isStaffWorkspace ? 'Case Messages' : 'Chat with us') }}
           </b>
         </h2>
       </div>
@@ -744,13 +744,17 @@ useFeedback(error, undefined, undefined)
               <strong>
                 {{
                   message.authorId === auth.user?.id
-                    ? 'You' +
-                      ' · ' +
-                      (message.authorRole || (auth.isStaffWorkspace ? 'Staff' : 'Customer'))
-                    : message.authorName
+                    ? 'You' + (auth.isStaffWorkspace ? ' · ' + (message.authorRole || 'Staff') : '')
+                    : auth.isStaffWorkspace
+                      ? message.authorName
+                      : customerActor(undefined, message.authorRole || message.authorName)
                 }}
                 <small
-                  v-if="message.authorRole && message.authorId !== auth.user?.id"
+                  v-if="
+                    auth.isStaffWorkspace &&
+                    message.authorRole &&
+                    message.authorId !== auth.user?.id
+                  "
                   class="w3-small"
                 >
                   · {{ message.authorRole }}

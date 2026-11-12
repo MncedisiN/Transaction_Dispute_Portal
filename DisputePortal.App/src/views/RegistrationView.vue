@@ -222,42 +222,38 @@ useFeedback(error, undefined, undefined)
           </span>
         </div>
         <template v-if="step === 1">
-          <div class="field-pair w3-row w3-row-padding">
-            <div class="w3-col s12 m6 w3-margin-bottom">
-              <div>
-                <label
-                  class="w3-block w3-margin-top w3-text-dark-grey w3-medium"
-                  for="reg-first"
-                >
-                  First Name
-                </label>
-                <input
-                  id="reg-first"
-                  v-model.trim="firstName"
-                  class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
-                  required
-                  maxlength="100"
-                  autocomplete="given-name"
-                />
-              </div>
+          <div class="registration-names">
+            <div>
+              <label
+                class="w3-block w3-margin-top w3-text-dark-grey w3-medium"
+                for="reg-first"
+              >
+                First Name
+              </label>
+              <input
+                id="reg-first"
+                v-model.trim="firstName"
+                class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
+                required
+                maxlength="100"
+                autocomplete="given-name"
+              />
             </div>
-            <div class="w3-col s12 m6 w3-margin-bottom">
-              <div>
-                <label
-                  class="w3-block w3-margin-top w3-text-dark-grey w3-medium"
-                  for="reg-last"
-                >
-                  Surname
-                </label>
-                <input
-                  id="reg-last"
-                  v-model.trim="lastName"
-                  class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
-                  required
-                  maxlength="100"
-                  autocomplete="family-name"
-                />
-              </div>
+            <div>
+              <label
+                class="w3-block w3-margin-top w3-text-dark-grey w3-medium"
+                for="reg-last"
+              >
+                Surname
+              </label>
+              <input
+                id="reg-last"
+                v-model.trim="lastName"
+                class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
+                required
+                maxlength="100"
+                autocomplete="family-name"
+              />
             </div>
           </div>
           <CountryPicker
@@ -465,12 +461,12 @@ useFeedback(error, undefined, undefined)
         }}
         <ArrowRight :size="18" />
       </button>
-      <p class="auth-legal w3-small w3-section">
+      <p class="auth-legal registration-security w3-small w3-section">
         <ShieldCheck
           class="w3-margin-right"
           :size="16"
         />
-        Your identity details are encrypted. We never send passwords in messages.
+        <span>Your identity details are encrypted. We never send passwords in messages.</span>
       </p>
     </form>
   </AuthLayout>

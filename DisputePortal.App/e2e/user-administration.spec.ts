@@ -102,7 +102,7 @@ test('compact user administration creates accounts and edits roles without expos
   await editor.getByRole('button', { name: /^Role:/ }).click()
   await page
     .getByRole('dialog', { name: 'Role', exact: true })
-    .getByRole('button', { name: 'Payments investigator', exact: true })
+    .getByRole('button', { name: 'Payments Investigator', exact: true })
     .click()
   await editor.getByLabel('Initial Password').fill('SyntheticPass!2026')
   await editor.getByRole('button', { name: 'Create User' }).click()
@@ -116,7 +116,7 @@ test('compact user administration creates accounts and edits roles without expos
   await editor.getByRole('button', { name: /^Role:/ }).click()
   await page
     .getByRole('dialog', { name: 'Role', exact: true })
-    .getByRole('button', { name: 'Card specialist', exact: true })
+    .getByRole('button', { name: 'Card Specialist', exact: true })
     .click()
   await editor.getByLabel('Case Capacity').fill('8')
   await editor.getByRole('button', { name: 'Save Access' }).click()
@@ -125,7 +125,7 @@ test('compact user administration creates accounts and edits roles without expos
   await page.getByLabel('Search Users').fill('busy')
   await page.getByRole('button', { name: 'Manage Busy Specialist' }).click()
   await expect(editor.getByRole('button', { name: /^Role:/ })).toBeDisabled()
-  await expect(editor.getByRole('button', { name: /^Account status:/ })).toBeDisabled()
+  await expect(editor.getByRole('button', { name: /^Account Status:/ })).toBeDisabled()
   await expect(
     editor.getByText('Reassign this user’s open cases before changing their role or status.')
   ).toBeVisible()

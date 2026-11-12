@@ -8,7 +8,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { api, ApiError } from '../api'
 import type { PageResult } from '../types'
 import type { StaffTransaction } from '../staffTransactions'
-import { formatTransactionTime, formatMoney, transactionTypeLabel } from '../utils/format'
+import {
+  formatTransactionTime,
+  formatMoney,
+  transactionTypeLabel,
+  transactionStatusLabel
+} from '../utils/format'
 import AppShell from '../components/AppShell.vue'
 import PageHeading from '../components/PageHeading.vue'
 import CaseHistoryFilters from '../components/CaseHistoryFilters.vue'
@@ -95,7 +100,7 @@ useFeedback(error, undefined, undefined)
               class="w3-input w3-border w3-round-xlarge w3-large w3-border-light-grey"
               aria-label="Search Customer Transactions"
               maxlength="100"
-              placeholder="Customer, contact, merchant or reference"
+              placeholder="Search transactions"
             />
           </label>
         </div>
@@ -172,20 +177,14 @@ useFeedback(error, undefined, undefined)
               Case Linked
             </small>
             <small
-              v-else-if="item.status === 'Pending'"
+              v-else-if="item.status"
               class="w3-small"
             >
-              Pending
-            </small>
-            <small
-              v-else-if="item.status === 'Reversed'"
-              class="w3-small"
-            >
-              Reversed
+              {{ transactionStatusLabel(item.status) }}
             </small>
           </div>
           <ChevronRight
-            class="staff-row-chevron w3-right"
+            class="staff-row-chevron"
             :size="18"
           />
         </RouterLink>

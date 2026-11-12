@@ -1,4 +1,5 @@
 using System.Net;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -23,6 +24,7 @@ public static class LocalHttpsCertificates
     public static void Prepare(InstallationOptions options)
     {
         if (options.HttpsPort is < 1024 or > 65535
+            || options.CertificatePort is < 1024 or > 65535
             || (options.LocalAddress.Length > 0 && !IsPrivateAddress(options.LocalAddress)))
         {
             throw new InvalidOperationException("Local HTTPS requires a private IPv4 address and a valid nonprivileged port.");
@@ -60,6 +62,15 @@ public static class LocalHttpsCertificates
             throw new InvalidOperationException("The local certificate authority needs renewal and must be trusted again on each device.");
         }
 
+        // Strict TLS clients need a signed, reachable revocation list for this private CA.
+        var certificateHost = options.LocalAddress.Length == 0 ? "localhost" : options.LocalAddress;
+        var revocationUrl = $"http://{certificateHost}:{options.CertificatePort}/portal.crl";
+        var revocationExtension = CertificateRevocationListBuilder.BuildCrlDistributionPointExtension([revocationUrl]);
+        var revocations = new CertificateRevocationListBuilder();
+        File.WriteAllBytes(Path.Combine(publicDirectory, "portal.crl"), revocations.Build(
+            issuer, new BigInteger(now.ToUnixTimeSeconds()), now.AddDays(365),
+            HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1, now.AddMinutes(-5)));
+
         var certificatePath = Path.Combine(publicDirectory, "server.pem");
         var serverKeyPath = Path.Combine(publicDirectory, "server.key");
         var addressPath = Path.Combine(privateDirectory, "address.txt");
@@ -68,7 +79,9 @@ public static class LocalHttpsCertificates
         if (!regenerate)
         {
             using var certificate = X509Certificate2.CreateFromPemFile(certificatePath, serverKeyPath);
-            regenerate = certificate.NotAfter.ToUniversalTime() <= now.AddDays(14).UtcDateTime;
+            regenerate = certificate.NotAfter.ToUniversalTime() <= now.AddDays(14).UtcDateTime
+                || certificate.Extensions["2.5.29.31"] is not { } distributionPoints
+                || !distributionPoints.RawData.AsSpan().SequenceEqual(revocationExtension.RawData);
         }
 
         if (regenerate)
@@ -85,6 +98,7 @@ public static class LocalHttpsCertificates
             }
 
             request.CertificateExtensions.Add(names.Build());
+            request.CertificateExtensions.Add(revocationExtension);
             request.CertificateExtensions.Add(new X509BasicConstraintsExtension(false, false, 0, true));
             request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment, true));
             request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(new OidCollection { new("1.3.6.1.5.5.7.3.1") }, true));
@@ -101,12 +115,46 @@ public static class LocalHttpsCertificates
         WriteFile(Path.Combine(publicDirectory, "fingerprint.txt"), fingerprint);
         var host = options.LocalAddress.Length == 0 ? "localhost" : options.LocalAddress;
         var url = $"https://{host}:{options.HttpsPort}";
+        WriteFile(Path.Combine(publicDirectory, "trust-check.js"), $$"""
+            (() => {
+              const status = document.getElementById('certificate-trust-status');
+              const secureOrigin = {{System.Text.Json.JsonSerializer.Serialize(url)}};
+              const reports = [];
+              function report(result) {
+                const image = new Image();
+                reports.push(image);
+                image.src = '/authority.cer?trust_probe=' + encodeURIComponent(result);
+              }
+              const probe = new Image();
+              probe.onload = async () => {
+                status.textContent = 'Secure connection verified. Checking portal access…';
+                report('tls-verified');
+                try {
+                  await fetch(secureOrigin + '/api/v1/portal/reference?phone_probe=1', { mode: 'no-cors', credentials: 'omit', cache: 'no-store' });
+                  status.textContent = 'Secure connection verified. Portal service reached. You can refresh the portal app below.';
+                  report('settings-reached');
+                } catch {
+                  status.textContent = 'The secure connection works, but this browser could not reach the portal service.';
+                  report('settings-unreachable');
+                }
+              };
+              probe.onerror = () => {
+                status.textContent = 'Safari could not complete the secure request. Use Refresh Portal App below to bypass saved app files. If that fails, check the network and the current portal certificate.';
+                report('secure-request-failed');
+              };
+              probe.src = secureOrigin + '/app-icon.svg?trust_check=' + Date.now();
+            })();
+            """);
         WriteFile(Path.Combine(publicDirectory, "install.html"), $$"""
             <!doctype html>
             <html lang="en">
             <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dispute Portal HTTPS</title></head>
             <body>
             <h1>Dispute Portal</h1>
+            <h2>Phone connection check</h2>
+            <p id="certificate-trust-status" role="status">Checking your secure connection…</p>
+            <script src="/trust-check.js" defer></script>
+            <p><a href="{{url}}/install/client-recovery">Refresh Portal App</a></p>
             <p>This local assessment uses a certificate authority generated only for this installation.</p>
             <p><a href="/authority.cer">Download Current Dispute Portal Certificate</a></p>
             <p><a href="#replace-iphone-certificate">Replace An Older iPhone Certificate</a></p>

@@ -19,7 +19,12 @@ self.addEventListener('push', (event) => {
   } catch {
     /* Keep lock-screen content private. */
   }
-  const title = typeof payload.title === 'string' ? payload.title.slice(0, 80) : 'Dispute Portal'
+  const suppliedTitle = typeof payload.title === 'string' ? payload.title.trim().slice(0, 80) : ''
+  
+  const title =
+    suppliedTitle && !/^(?:from\s+)?Dispute\s+Portal$/i.test(suppliedTitle)
+      ? suppliedTitle
+      : 'New update'
   const tag = typeof payload.tag === 'string' ? payload.tag.slice(0, 80) : 'dispute-update'
   const options = {
     body:

@@ -8,6 +8,7 @@ public class InstallationOptions
     public string PublicOrigin { get; set; } = "http://localhost:8080";
     public string LocalAddress { get; set; } = "";
     public int HttpsPort { get; set; } = 8443;
+    public int CertificatePort { get; set; } = 8081;
     public string PushSubject { get; set; } = "";
     public string PrivateSettingsFile { get; set; } = "";
     public string ApiDatabaseProvider { get; set; } = "SqlServer";

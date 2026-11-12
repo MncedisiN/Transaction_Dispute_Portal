@@ -20,7 +20,7 @@ for (const width of [390, 1440]) {
     }
     await page.screenshot({ path: info.outputPath('overview.png') })
     await page.goto('/transactions')
-    await expect(page.getByText('First 30 days after account opening')).toBeVisible()
+    await expect(page.locator('.history-window-hint')).toHaveCount(0)
     const row = page.locator('.transaction-row').first()
     await expect(row).toBeVisible()
     const rowBox = (await row.boundingBox())!

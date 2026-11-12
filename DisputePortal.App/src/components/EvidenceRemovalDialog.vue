@@ -72,8 +72,8 @@ useFeedback(error, undefined, undefined)
           <h2 class="w3-sans-serif w3-large">Remove Evidence</h2>
         </header>
         <p>
-          This file will stop being available to view. Its protected original and removal history
-          remain retained for the case record.
+          This file will no longer be available to view with your dispute. We keep a secure record
+          of this change.
         </p>
         <form
           class="evidence-access-form w3-bar"

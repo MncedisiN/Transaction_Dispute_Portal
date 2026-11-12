@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { loadPortalReference, referenceState } from './portalReference'
 import { loadPlatform } from './platform'
 import ToastHost from './components/ToastHost.vue'
 import { useOnline } from './composables/useOnline'
+const router = useRouter()
+const route = useRoute()
 const { online } = useOnline()
 const referenceError = ref('')
 const loadingReference = ref(false)
@@ -21,7 +24,12 @@ async function loadReference() {
     loadingReference.value = false
   }
 }
-onMounted(loadReference)
+onMounted(async () => {
+  // Initial route guards establish or clear the session. Finish that check before
+  // starting requests protected against responses from a previous session.
+  await router.isReady()
+  await loadReference()
+})
 </script>
 
 <template>
@@ -33,7 +41,8 @@ onMounted(loadReference)
     <span class="online-dot" />
     You're offline. Private transaction and dispute data is unavailable until you reconnect.
   </div>
-  <RouterView v-if="referenceState.ready && !referenceError" />
+  <!-- Password authentication has no dependency on dispute/reference policies. -->
+  <RouterView v-if="route.name === 'sign-in' || (referenceState.ready && !referenceError)" />
   <main
     v-else
     class="surface-panel portal-startup w3-container w3-margin-bottom w3-section w3-white w3-padding-large w3-round-xlarge w3-border w3-border-light-grey"

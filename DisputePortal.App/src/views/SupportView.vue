@@ -76,6 +76,9 @@ const initialEnquiryCase = computed<SupportCaseOption | null>(() => {
     : relatedCase.value
 })
 const creating = computed(() => route.query.new === '1' || !!enquiryFor.value)
+const directChat = computed(() =>
+  Boolean(selected.value || creating.value || route.query.dispute || route.query.transaction)
+)
 const selectedThread = ref<SupportThread | null>(null)
 const search = ref(typeof route.query.search === 'string' ? route.query.search : ''),
   appliedSearch = ref(search.value)
@@ -219,7 +222,7 @@ async function openCase(id: string) {
       })
     }
   } catch {
-    error.value = 'This case conversation is unavailable.'
+    error.value = 'We couldn’t open your chat. Return to your dispute and try again.'
   }
 }
 async function openEnquiry(id: string) {
@@ -300,6 +303,20 @@ watch(queueTab, () => {
 watch(selected, () => {
   if (selected.value && !active.value) void load()
 })
+watch(
+  () => [route.query.dispute, route.query.transaction],
+  async ([dispute, transaction]) => {
+    if (loading.value || creating.value || selected.value) return
+    if (typeof dispute !== 'string' && typeof transaction !== 'string') return
+    loading.value = true
+    try {
+      if (typeof dispute === 'string') await openCase(dispute)
+      else if (typeof transaction === 'string') await openTransaction(transaction)
+    } finally {
+      if (!disposed) loading.value = false
+    }
+  }
+)
 watch(enquiryFor, (value) => {
   if (value && !loading.value) void openEnquiry(value)
 })
@@ -311,13 +328,13 @@ onUnmounted(() => {
 useFeedback(error, undefined, undefined)
 </script>
 <template>
-  <AppShell :conversation="Boolean(selected || creating)">
+  <AppShell :conversation="directChat">
     <div
       class="messages-page"
-      :class="{ 'showing-conversation': selected || creating }"
+      :class="{ 'showing-conversation': directChat }"
     >
       <PageHeading
-        v-if="!selected && !creating"
+        v-if="!directChat"
         :title="auth.isStaffWorkspace ? 'Message Queue' : 'Messages'"
       >
         <button
@@ -333,7 +350,7 @@ useFeedback(error, undefined, undefined)
         </button>
       </PageHeading>
       <div
-        v-if="!selected && !creating"
+        v-if="!directChat"
         class="message-queue-summary w3-bar w3-section w3-white w3-round-xlarge w3-margin-bottom w3-padding-small"
         aria-label="Message Queue Filters"
       >
@@ -386,10 +403,10 @@ useFeedback(error, undefined, undefined)
       </p>
       <div
         class="support-workspace w3-row-padding"
-        :class="{ 'conversation-open': selected || creating }"
+        :class="{ 'conversation-open': directChat }"
       >
         <aside
-          v-if="!selected && !creating"
+          v-if="!directChat"
           class="surface-panel inbox-panel w3-container w3-margin-bottom w3-col l5 m12 s12 w3-section w3-white w3-padding-large w3-round-xlarge w3-border w3-border-light-grey"
         >
           <form
@@ -531,8 +548,19 @@ useFeedback(error, undefined, undefined)
           </nav>
         </aside>
         <div
+          v-if="directChat && loading"
+          class="chat-opening"
+          role="status"
+          aria-live="polite"
+        >
+          <MessageCircle :size="28" />
+          <h1>Opening your chat</h1>
+          <p>Getting your conversation ready…</p>
+        </div>
+        <div
+          v-else
           class="conversation-pane w3-col s12 m12 w3-content"
-          :class="selected || creating ? 'l12' : 'l7'"
+          :class="directChat ? 'l12' : 'l7'"
         >
           <GuidedEnquiry
             v-if="creating && !auth.isStaffWorkspace && (!enquiryFor || enquiryContext)"

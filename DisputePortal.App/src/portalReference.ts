@@ -1,5 +1,4 @@
 import { reactive } from 'vue'
-import { api } from './api'
 
 export interface StatusReference {
   label: string
@@ -128,8 +127,16 @@ export function applyPortalReference(value: PortalReference) {
 export async function loadPortalReference(refresh = false): Promise<void> {
   if (referenceState.ready && !refresh) return
   if (!pending)
-    pending = api
-      .get<PortalReference>('/api/v1/portal/reference')
+    pending = fetch('/api/v1/portal/reference', {
+      credentials: 'omit',
+      cache: 'no-store',
+      redirect: 'error',
+      headers: { Accept: 'application/json' }
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`Portal reference request failed (${response.status}).`)
+        return (await response.json()) as PortalReference
+      })
       .then(applyPortalReference)
       .finally(() => {
         pending = null

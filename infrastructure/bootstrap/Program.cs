@@ -9,6 +9,7 @@ try
         PublicOrigin = Environment.GetEnvironmentVariable("PORTAL_PUBLIC_URL") ?? "http://localhost:8080",
         LocalAddress = Environment.GetEnvironmentVariable("PORTAL_LAN_IP") ?? "",
         HttpsPort = int.Parse(Environment.GetEnvironmentVariable("PORTAL_HTTPS_PORT") ?? "8443", System.Globalization.CultureInfo.InvariantCulture),
+        CertificatePort = int.Parse(Environment.GetEnvironmentVariable("PORTAL_CERTIFICATE_PORT") ?? "8081", System.Globalization.CultureInfo.InvariantCulture),
         PushSubject = Environment.GetEnvironmentVariable("PUSH_SUBJECT") ?? "",
         PrivateSettingsFile = Environment.GetEnvironmentVariable("PORTAL_PRIVATE_SETTINGS") ?? "",
         ApiDatabaseProvider = Environment.GetEnvironmentVariable("API_DATABASE_PROVIDER") ?? "SqlServer",

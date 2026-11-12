@@ -196,7 +196,7 @@ test('transfer notification preserves account details and opens the correct tran
   expect(result.shown[0].body).toContain('Cheque')
   expect(result.shown[0].body).toContain('Savings')
   expect(result.shown[0].icon).toContain('shield')
-  expect(result.shown[0].title).toBe('Dispute Portal')
+  expect(result.shown[0].title).toBe('New update')
   expect(result.messages[0].topics).toContain('banking')
   expect(result.paths[0]).toContain('/transactions/transfer-one')
   expect(result.focused).toBe(true)

@@ -300,7 +300,9 @@ useFeedback(error, success, undefined)
                   You
                 </small>
               </strong>
-              <span class="w3-block w3-small w3-text-grey">{{ user.email }}</span>
+              <span class="user-directory-email w3-block w3-small w3-text-grey">
+                {{ user.email }}
+              </span>
               <span class="user-row-role w3-block w3-small">
                 {{ userRoles[user.role]?.label ?? user.role }}
                 <i aria-hidden="true">·</i>
@@ -359,7 +361,7 @@ useFeedback(error, success, undefined)
           class="w3-margin-right"
           :size="14"
         />
-        Access changes are audited.
+        <span>Access changes are audited.</span>
       </p>
     </div>
     <dialog

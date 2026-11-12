@@ -47,6 +47,10 @@ watch(
   { immediate: true }
 )
 const profileMenuOpen = ref(false)
+function openAppearance() {
+  closeProfileMenu()
+  appearanceSheet.value?.showModal()
+}
 function closeProfileMenu() {
   profileMenuOpen.value = false
 }
@@ -251,7 +255,8 @@ onUnmounted(() => {
           >
             <X :size="19" />
           </button>
-          <h2 class="w3-sans-serif w3-large">Appearance</h2>
+          <h2 class="w3-sans-serif w3-large">Make yourself comfortable</h2>
+          <p class="appearance-description">Choose a look that feels right for you.</p>
         </header>
         <div
           class="appearance-options w3-bar-block"
@@ -260,9 +265,14 @@ onUnmounted(() => {
         >
           <button
             v-for="option in [
-              { value: 'light', label: 'Light', icon: Sun },
-              { value: 'dark', label: 'Dark', icon: Moon },
-              { value: 'system', label: 'System', icon: Monitor }
+              { value: 'light', label: 'Light', description: 'Bright and clear', icon: Sun },
+              { value: 'dark', label: 'Dark', description: 'Easy on the eyes', icon: Moon },
+              {
+                value: 'system',
+                label: 'Use device setting',
+                description: 'Matches your device',
+                icon: Monitor
+              }
             ] as const"
             :key="option.value"
             class="w3-bar-item w3-button w3-padding-16"
@@ -275,7 +285,10 @@ onUnmounted(() => {
               class="w3-margin-right"
               :size="22"
             />
-            {{ option.label }}
+            <span class="appearance-option-copy">
+              <strong>{{ option.label }}</strong>
+              <small>{{ option.description }}</small>
+            </span>
             <Check
               v-if="preference === option.value"
               :size="15"
@@ -316,36 +329,20 @@ onUnmounted(() => {
           </div>
           <div class="w3-col s4 l2 w3-bar w3-padding-small">
             <RouterLink
-              class="icon-button notification-button w3-bar-item w3-button w3-round-large w3-right w3-padding-small w3-display-container w3-padding-16"
+              class="notification-control w3-button"
               to="/notifications"
               :aria-label="`Notifications, ${unreadCount} unread`"
               :aria-current="route.path === '/notifications' ? 'page' : undefined"
             >
               <Bell :size="18" />
+              <span class="notification-control-label">Notifications</span>
               <span
                 v-if="unreadCount"
-                class="notification-unread-count w3-badge w3-theme-d5 w3-display-topright w3-tiny"
+                class="notification-count"
               >
                 {{ unreadCount > 99 ? '99+' : unreadCount }}
               </span>
             </RouterLink>
-            <button
-              class="icon-button appearance-button w3-bar-item w3-button w3-round-large w3-right w3-padding-small w3-padding-16"
-              type="button"
-              aria-label="Appearance"
-              aria-haspopup="dialog"
-              title="Light, Dark Or System Appearance"
-              @click="appearanceSheet?.showModal()"
-            >
-              <Sun
-                v-if="isDark"
-                :size="18"
-              />
-              <Moon
-                v-else
-                :size="18"
-              />
-            </button>
           </div>
           <div
             class="profile-controls w3-col s12 l4 w3-padding-small"
@@ -379,6 +376,10 @@ onUnmounted(() => {
                 v-if="profileMenuOpen"
                 class="profile-menu-panel w3-dropdown-content w3-show w3-block w3-bar-block w3-card w3-white w3-border w3-round-large"
               >
+                <div class="profile-menu-heading">
+                  <strong>{{ auth.user?.displayName }}</strong>
+                  <small>Your account</small>
+                </div>
                 <RouterLink
                   to="/profile"
                   class="w3-bar-item w3-button w3-padding-16"
@@ -390,6 +391,17 @@ onUnmounted(() => {
                   />
                   Profile &amp; Security
                 </RouterLink>
+                <button
+                  type="button"
+                  class="w3-bar-item w3-button w3-padding-16"
+                  @click="openAppearance"
+                >
+                  <Sun
+                    class="w3-margin-right"
+                    :size="17"
+                  />
+                  Appearance
+                </button>
                 <button
                   v-if="auth.isAdmin && auth.user?.roles.includes('customer')"
                   type="button"
@@ -439,13 +451,14 @@ onUnmounted(() => {
         class="w3-cell w3-button w3-center w3-small w3-padding-small w3-padding-16"
         :class="{
           'w3-text-blue-grey w3-theme-l4 w3-round-xlarge': isCurrent(item.to),
-          'primary-disputes-navigation': item.to === '/disputes'
+          'primary-disputes-navigation': item.to === '/disputes',
+          'primary-support-navigation': isAdmin && item.to === '/support'
         }"
         :aria-current="isCurrent(item.to) ? 'page' : undefined"
       >
         <component
           :is="item.icon"
-          :size="item.to === '/disputes' ? 28 : 20"
+          :size="item.to === '/disputes' || (isAdmin && item.to === '/support') ? 28 : 20"
           class="w3-block"
         />
         {{ item.label }}

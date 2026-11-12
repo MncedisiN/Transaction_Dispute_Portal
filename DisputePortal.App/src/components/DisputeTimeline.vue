@@ -3,6 +3,7 @@ import DisclosurePanel from './DisclosurePanel.vue'
 import ActionActor from './ActionActor.vue'
 import { statusReferences } from '../portalReference'
 import { computed } from 'vue'
+import { customerActivityText } from '../utils/customerPresentation'
 import { Check, Circle, MessageCircle } from '@lucide/vue'
 import type { DisputeDetail } from '../types'
 import { formatDate } from '../utils/format'
@@ -42,10 +43,11 @@ const customerNotes = computed(() =>
               {{ formatDate(event.changedAt, { day: 'numeric', month: 'short', year: 'numeric' }) }}
             </time>
           </div>
-          <p>{{ event.comment || 'Your dispute status was updated.' }}</p>
+          <p>{{ customerActivityText(event.comment) || 'Your dispute status was updated.' }}</p>
           <ActionActor
             :identity="event.actorIdentity"
             :fallback="event.actorName"
+            :action="event.newStatus"
           />
         </div>
       </li>

@@ -9,13 +9,13 @@ const steps = computed(() => statusReferences[props.status]?.steps ?? [])
 </script>
 <template>
   <ol
-    class="case-progress w3-ul w3-row w3-section"
+    class="case-progress w3-ul w3-section"
     aria-label="Case Progress"
   >
     <li
       v-for="(step, index) in steps"
       :key="index"
-      class="w3-col s4 w3-center w3-border-0 w3-padding-small"
+      class="w3-center w3-border-0 w3-padding-small"
       :aria-current="index === stage ? 'step' : undefined"
     >
       <span

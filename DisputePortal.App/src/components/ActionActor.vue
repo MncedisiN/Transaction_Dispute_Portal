@@ -1,19 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useAuthStore } from '../stores/auth'
+import { customerActor } from '../utils/customerPresentation'
+const auth = useAuthStore()
 import type { ActionActor } from '../types'
 import { userRoles } from '../utils/userAccess'
 const props = defineProps<{
   identity?: ActionActor | null
   fallback?: string | null
   compact?: boolean
+  action?: string
 }>()
-const name = computed(
-  () =>
-    props.identity?.fullName ||
-    props.identity?.accountName ||
-    props.identity?.label ||
-    props.fallback ||
-    'Actor not recorded'
+const name = computed(() =>
+  !auth.isStaffWorkspace
+    ? customerActor(
+        props.identity,
+        props.fallback,
+        auth.user?.id,
+        props.action,
+        auth.user?.displayName
+      )
+    : props.identity?.fullName ||
+      props.identity?.accountName ||
+      props.identity?.label ||
+      props.fallback ||
+      'Actor not recorded'
 )
 const role = computed(() =>
   (props.identity?.roles ?? [])
@@ -28,7 +39,7 @@ const role = computed(() =>
   >
     <span class="actor-name w3-block">{{ name }}</span>
     <small
-      v-if="role"
+      v-if="role && auth.isStaffWorkspace"
       class="w3-small"
     >
       {{ role }}

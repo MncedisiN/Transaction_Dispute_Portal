@@ -404,7 +404,8 @@
         "EXTERNAL_MESSAGES_ENABLED": "${EXTERNAL_MESSAGES_ENABLED:-false}",
         "POPULATE_ASSESSMENT_ACCOUNTS": "${POPULATE_ASSESSMENT_ACCOUNTS:-true}",
         "PORTAL_LAN_IP": "${PORTAL_LAN_IP:-}",
-        "PORTAL_HTTPS_PORT": "${PORTAL_HTTPS_PORT:-8443}"
+        "PORTAL_HTTPS_PORT": "${PORTAL_HTTPS_PORT:-8443}",
+        "PORTAL_CERTIFICATE_PORT": "${PORTAL_CERTIFICATE_PORT:-8081}"
       },
       "volumes": [
         "installation-state:/state",
